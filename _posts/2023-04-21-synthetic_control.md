@@ -4,7 +4,7 @@ date: 2023-04-21 17:38:26 +/-0800
 categories: [Causal Inference, Synthetic Control]
 tags: [causal_inference, notes]     # TAG names should always be lowercase
 img_path: /assets/img/posts/2023-04-21/
-comments: false
+comments: true
 math: true
 ---
 

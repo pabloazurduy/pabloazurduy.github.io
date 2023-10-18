@@ -7,7 +7,6 @@ img_path: /assets/img/posts/2023-04-21/
 image: synthetic_control_1.png
 comments: true
 math: true
-
 ---
 
 ## 📖 preface

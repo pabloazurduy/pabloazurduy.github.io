@@ -3,6 +3,7 @@ title: Orthogonalization Using Regression
 date: 2023-10-18 17:38:26 +/-0800
 categories: [Causal Inference, Orthogonalization]
 tags: [causal_inference, notes]     # TAG names should always be lowercase
+img_path: /assets/img/posts/2023-01-12/
 comments: true
 math: true
 ---

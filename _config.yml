@@ -16,7 +16,7 @@ timezone: CET
 
 title: Pablo Azurduy # the main title
 
-tagline: Data Scientist, MS Operations Research # it will display as the sub-title
+tagline: DS and Causal Inference blog # it will display as the sub-title
 
 description: >- # used by seo meta and the atom feed
   A blog about Data Science, Causal Inference and other topics 

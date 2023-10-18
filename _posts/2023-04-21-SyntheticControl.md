@@ -8,9 +8,7 @@ comments: false
 math: true
 ---
 
-*based on [link][1]*
-
-## 📖 Introduction
+## 📖 preface
 
 Welcome to this post on synthetic control! 🎉
 
@@ -22,6 +20,7 @@ Without further ado, let's dive in! 🤿
 
 
 # Introduction to Synthetic Control
+*based on [link][1]*
 
 Synthetic control is an event studies methodology that is super close to [diff and diff][2]. It usually used when DnD its limited for one of two reasons:
 

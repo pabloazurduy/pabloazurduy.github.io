@@ -10,7 +10,11 @@ math: true
 
 ### Intro 
 
-📈📉 This blog post is about a statistical method called "Orthogonalization Using Regression" that helps to debias a dataset when there is a strong autocorrelation between some of the regressors and the predicted variable. This is a common problem encountered when we need to estimate price elasticities or promo elasticities, which have a high auto-correlation. For example, when we try to model the demand for ice cream as a function of price, we often find that the price is also influenced by the demand (e.g. higher prices in the summer when demand is high). This can lead to biased estimates of the price elasticity of demand. The method is based on the Frisch-Waugh-Lovell theorem and is explained in detail with code examples. The post is aimed at developers and data scientists who want to learn more about causal inference and debiasing techniques.
+📈📉 This blog post is about a statistical method called "Orthogonalization Using Regression" that helps to debias a dataset when there is a strong autocorrelation between some of the regressors and the predicted variable. 
+
+This is a common problem encountered when we need to estimate price elasticities or promo elasticities, which have a high auto-correlation. For example, when we try to model the demand for ice cream as a function of price, we often find that the price is also influenced by the demand (e.g. higher prices in the summer when demand is high). This can lead to biased estimates of the price elasticity of demand. 
+
+The method is based on the Frisch-Waugh-Lovell theorem and is explained in detail with code examples. The post is aimed at developers and data scientists who want to learn more about causal inference and debiasing techniques.
 
 ## Orthogonalization Using Regression
 
@@ -18,13 +22,13 @@ This procedure is a method to debias a dataset when there is a strong autocorrel
 
 $$Q = \beta_p * P + \beta_X*X + \beta_0$$
 
-the problem is that usually the price is a variable that is defined based on the demand or the expectation of the demand ( $P =f(E(Q))$ ). by example summer icecream prices and demand in summer. 
+the problem is that usually, the price is a variable that is defined based on the demand or the expectation of the demand ( $P =f(E(Q))$ ). by example summer ice cream prices and demand in summer. 
 
 Orthogonalization is a method to somehow reduce that bias in the dataset, considering that the variable to study ( $P$ ) is **not randomly assigned** rather than defined throw an optimization process. This method is based on the [Frisch–Waugh–Lovell theorem][2], and is also explained in the book [*The Elements of Statistical Learning : Data Mining, Inference, and Prediction*][3]. 
 
 ### The method 
 
-The idea behind the method is similar to the one behind the [propensity score][4]. We try to use the confounders matrix $X$ to try to predict the treatment variable $P$. After that we make a few more weird steps; we isolate the unexplained effect in the dependent variable $Q$ of the confounders $X$ and try to explained by the "randomly" debiased $\hat{P}$. This steps are detailed on the following procedure:
+The idea behind the method is similar to the one behind the [propensity score][4]. We try to use the confounders matrix $X$ to try to predict the treatment variable $P$. After that we make a few more weird steps; we isolate the unexplained effect in the dependent variable $Q$ of the confounders $X$ and try to explain by the "randomly" debiased $\hat{P}$. These steps are detailed in the following procedure:
 
 1. we first fit a model to predict the treatment variable $P$ against the confounders (in our price elasticity example, $X$ = time/season/zone), then we create a "debiased random" variable $\hat{P}$ that will contain the *non explained by X* variance of $P$. 
 
@@ -55,9 +59,9 @@ We know from the theorem of [Frisch][2] that $\beta_p$ is equivalent to the orig
 
 $$y_i = \beta_0 + \pmb{\beta_X X} + \pmb{\beta_p P} $$
 
-This is incredibly powerful for causal inference. It says that I can build a model that predicts my treatment $P$ using my features $X$ , a model that predicts the outcome $Q$ using the same features, take the residuals from both models and run a model that estimates how the residual of $\hat{P}$  affects the residual of $\hat{Q}$. This last model will tell me how $P$ affects $Q$  while controlling for $X$. In other words, the first two models are controlling for the confounding variables. They are generating data which is as good as random. This is debiasing my data. That’s what we use in the final model to estimate the elasticity.
+This is incredibly powerful for causal inference. It says that I can build a model that predicts my treatment $P$ using my features $X$ , a model that predicts the outcome $Q$ using the same features, take the residuals from both models, and run a model that estimates how the residual of $\hat{P}$  affects the residual of $\hat{Q}$. This last model will tell me how $P$ affects $Q$  while controlling for $X$. In other words, the first two models are controlling for the confounding variables. They are generating data that is as good as random. This is debiasing my data. That’s what we use in the final model to estimate the elasticity.
 
-Also is worth nothing that we should keep everything in the [regression world][5] in order to use orthogonalization
+Also is worth noting that we should keep everything in the [regression world][5] in order to use orthogonalization
 
 Notes from the [Orthogonalization article][1]
 

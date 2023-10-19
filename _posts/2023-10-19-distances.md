@@ -1,5 +1,5 @@
 ---
-title: Matching and some efficiently search algorithms
+title: Matching and Some Efficient Search Algorithms
 date: 2023-10-19 21:00:00 +/-0800
 categories: [Machine Learning, Search]
 tags: [causal_inference, search, ml, matching, notes]     # TAG names should always be lowercase
@@ -21,7 +21,7 @@ To speed up nearest neighbor search, we can use data structures called [KD-Trees
 
 KD-Tree and Ball-Tree are data structures used for nearest neighbor search. KD-Tree partitions the dataset into smaller regions or hyperplanes, while Ball-Tree partitions the dataset into smaller regions or nested hyperspheres. These structures allow us to quickly find the closest point(s) to a query point, without having to compute the distance to every point in the dataset.
 
-This structures allows you to very efficiently query things like:
+This structure allows you to very efficiently query things like:
 
 1. Getting the k-closest neighbors of a point [`sklearn.neighbors.KDTree.query`][6]
 2. Getting all the neighboors in a $R$ radio [`sklearn.neighbors.KDTree.query_radius`][7]
@@ -30,7 +30,7 @@ This structures allows you to very efficiently query things like:
 I linked here the sklearn implementation, but you have similar methods in [`KDTree`][8] and in [`BallTree`][9], and also in other libraries such as [`scipy`][10]
 
 ## Implementation 
-we will generate some random data to do an example, and we will compare two tree structures to measure the time of what its the fastest one 
+We will generate some random data to do an example, and we will compare two tree structures to measure which one is the fastest.
 
 ```python
 # this script compares two tree structures on the search of the k-closest neighboors, a very traditional problem on approximated matching 
@@ -78,7 +78,7 @@ In my computer this outputs:
 
 KD-Trees and Ball-Trees are powerful data structures that can be used to speed up nearest neighbor search. By partitioning the dataset into smaller regions or nested hyperspheres, these structures allow us to quickly find the closest point(s) to a query point, without having to compute the distance to every point in the dataset. Efficient algorithms like this are crucial when we do [approximate-matching][2] or any subclassification related. 
 
-This also comes with the advantage of efficient distance estimation than can be used after to do some [bias correction][11] or even some weighting (like in a [synthetic control][12] approach)
+This also comes with the advantage of efficient distance estimation that can be used later to do some [bias correction][11] or even some weighting (like in a [synthetic control][12] approach).
 
 [1]:<https://mixtape.scunning.com/05-matching_and_subclassification#exact-matching>
 [2]: <https://mixtape.scunning.com/05-matching_and_subclassification#approximate-matching>

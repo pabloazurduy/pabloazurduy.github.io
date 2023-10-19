@@ -76,7 +76,9 @@ In my computer this outputs:
 
 ## Conclusion
 
-KD-Trees and Ball-Trees are powerful data structures that can be used to speed up nearest neighbor search. By partitioning the dataset into smaller regions or nested hyperspheres, these structures allow us to quickly find the closest point(s) to a query point, without having to compute the distance to every point in the dataset.
+KD-Trees and Ball-Trees are powerful data structures that can be used to speed up nearest neighbor search. By partitioning the dataset into smaller regions or nested hyperspheres, these structures allow us to quickly find the closest point(s) to a query point, without having to compute the distance to every point in the dataset. Efficient algorithms like this are crucial when we do [approximate-matching][2] or any subclassification related. 
+
+This also comes with the advantage of efficient distance estimation than can be used after to do some [bias correction][11] or even some weighting (like in a [synthetic control][12] approach)
 
 [1]:<https://mixtape.scunning.com/05-matching_and_subclassification#exact-matching>
 [2]: <https://mixtape.scunning.com/05-matching_and_subclassification#approximate-matching>
@@ -88,3 +90,5 @@ KD-Trees and Ball-Trees are powerful data structures that can be used to speed u
 [8]:<https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KDTree.html#sklearn.neighbors.KDTree>
 [9]:<https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.BallTree.html#sklearn.neighbors.BallTree>
 [10]:<https://docs.scipy.org/doc/scipy/reference/spatial.html#nearest-neighbor-queries>
+[11]:<https://mixtape.scunning.com/05-matching_and_subclassification#5-3-2-bias-correction>
+[12]:<https://pabloazurduy.github.io/posts/synthetic_control/>

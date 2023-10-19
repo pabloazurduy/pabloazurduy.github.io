@@ -8,7 +8,7 @@ comments: true
 math: true
 ---
 
-### Intro 
+### Introduction
 
 ["Orthogonalization"][1] Its a method that helps to debias a dataset when there is a strong autocorrelation between some of the regressors and the predicted variable. 
 

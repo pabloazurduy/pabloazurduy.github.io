@@ -10,11 +10,11 @@ math: true
 
 ### Intro 
 
-📈📉 This blog post is about a statistical method called "Orthogonalization Using Regression" that helps to debias a dataset when there is a strong autocorrelation between some of the regressors and the predicted variable. 
+This blog post is about a statistical method called "Orthogonalization Using Regression" that helps to debias a dataset when there is a strong autocorrelation between some of the regressors and the predicted variable. 
 
 This is a common problem encountered when we need to estimate price elasticities or promo elasticities, which have a high auto-correlation. For example, when we try to model the demand for ice cream as a function of price, we often find that the price is also influenced by the demand (e.g. higher prices in the summer when demand is high). This can lead to biased estimates of the price elasticity of demand. 
 
-The method is based on the Frisch-Waugh-Lovell theorem and is explained in detail with code examples. The post is aimed at developers and data scientists who want to learn more about causal inference and debiasing techniques.
+The method is based on the [Frisch-Waugh-Lovell theorem][2] and is explained in detail with python code examples. 
 
 ## Orthogonalization Using Regression
 

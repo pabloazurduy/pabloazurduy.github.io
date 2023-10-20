@@ -1,5 +1,5 @@
 ---
-title: Matching and Some Efficient Search Algorithms
+title: Faster Matching 
 date: 2023-10-19 21:00:00 +/-0800
 categories: [Machine Learning, Search]
 tags: [causal_inference, search, ml, matching, notes]     # TAG names should always be lowercase
@@ -11,7 +11,7 @@ math: true
 
 The [matching methodology][1] is a well-known and widely used technique in [observational studies][13]. When implementing this methodology via ["approximated matching"][2] or ["nearest neighborhood matching"][3], finding the closest match between two sets of data becomes crucial.
 
-In this context, efficient algorithms for exact matching are crucial for processing large datasets. Estimating all distances between all points can be increasingly time-consuming $n^{2}$, especially when dealing with large datasets. 
+In this context, efficient algorithms for exact matching are crucial for processing large datasets. Estimating all distances between all points can be increasingly time-consuming $~O(n^{2})$, especially when dealing with large datasets. 
 
 Fortunately, there are more efficient ways of doing this. To speed up nearest neighbor search, we can use data structures called [KD-Trees][4] and [Ball-Trees][5]. These structures allow us to quickly find the closest point(s) to a query point, without having to compute the distance to every point in the dataset.
 

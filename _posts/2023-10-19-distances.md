@@ -17,21 +17,22 @@ Fortunately, there are more efficient ways of doing this. To speed up nearest ne
 
 ##  KD-Tree and Ball-Tree
 
-[KD-Tree][4] and [Ball-Tree][5] are data structures used for nearest neighbor search. KD-Tree partitions the dataset into smaller regions or hyperplanes, while Ball-Tree partitions the dataset into smaller regions or nested hyperspheres. These structures allow us to quickly find the closest point(s) to a query point, without having to compute the distance to every point in the dataset.
+[KD-Tree][4] and [Ball-Tree][5] are data structures used for nearest neighbor search. [KD-Tree][4] partitions the dataset into smaller regions or hyperplanes, while [Ball-Tree][5] partitions the dataset into smaller regions or nested hyperspheres. These structures allow us to quickly find the closest point(s) to a query point, without having to compute the distance to every point in the dataset.
 
-Depending on the implementation, we usually use find these methods: 
+When implementing these structures, we typically found the following methods:
 
-1. find the k-closest neighbors of a query-point [`sklearn.neighbors.KDTree.query`][6]
-2. finding all the neighbors in a $R$ radio from a query-point [`sklearn.neighbors.KDTree.query_radius`][7]
+1. Finding the k-closest neighbors of a query point [`sklearn.neighbors.KDTree.query`][6]
+2. Finding all the neighbors within a radius $R$ of a query point [`sklearn.neighbors.KDTree.query_radius`][7]
 
-You have similar methods on both [`sklearn.KDTree`][8] and in [`sklearn.BallTree`][9]. Including [`scipy` implementations][10] 
+Both [`sklearn.KDTree`][8] and [`sklearn.BallTree`][9] provide similar methods, as do [`scipy` implementations][10].
+
 
 ## Implementation 
 
-To test this methods we will use `sklearn.BallTree` and `scipy.cKDTree` and compare their speeds. we generate a random dataset with two sets of points and then we will find the nearest nehibor from one set to the other 
+To test the efficiency of the `sklearn.BallTree` and `scipy.cKDTree` methods, we will generate a random dataset with two sets of points and find the nearest neighbor from one set to the other.
 
 ```python
-# this script compares two tree structures on the search of the k-closest neighboors, a very traditional problem on approximated matching 
+# this script compares two tree structures on the search of the k-closest neighbors, a very traditional problem on approximated matching 
 
 import numpy as np
 from scipy.spatial import cKDTree
@@ -67,7 +68,7 @@ print(f"cKDTree took {ckdtree_time} seconds")
 print(f"Time difference: {abs(balltree_time - ckdtree_time)} seconds")
 ```
 
-this outputs (Apple M1 pro)
+This outputs (Apple M1 pro)
 
     BallTree took 10.020148992538452 seconds
     cKDTree took 3.3549211025238037 seconds

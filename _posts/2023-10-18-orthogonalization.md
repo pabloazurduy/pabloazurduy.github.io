@@ -14,11 +14,11 @@ math: true
 
 This is a common problem encountered when we need to estimate price elasticities or promo elasticities, which have a high auto-correlation. For example, when we try to model the demand for ice cream as a function of price, we often find that the price is also influenced by the demand (e.g. higher prices in the summer when demand is high). This can lead to biased estimates of the price elasticity of demand. 
 
-The method is based on the [Frisch-Waugh-Lovell theorem][2] and is explained in detail with python code examples. 
+The method is based on the [Frisch-Waugh-Lovell theorem][2] and in this post its explained with some python snippets. This notes are based on the  [Orthogonalization Chapter][1] from the book ["Causal Inference for the brave and True"][6]
 
 ## Orthogonalization Using Regression
 
-This procedure is a method to debias a dataset when there is a strong autocorrelation between some of the regressors and the predicted variable, such as price and demand. Usually, in order to estimate elasticity, we will model the demand as a regression over the price and other demand regressors. 
+This procedure is a method to debias a dataset when there is a strong autocorrelation between some regressors and the predicted variable, such as price and demand. Usually, in order to estimate elasticity, we will model the demand as a regression over the price and other demand regressors. 
 
 $$Q = \beta_p * P + \beta_X*X + \beta_0$$
 
@@ -39,7 +39,7 @@ m_t = smf.ols("price ~ cost + C(weekday) + temp", data=test).fit()
 test['price-Mt(X)'] = m_t.resid # price - pred_price(X)
 ```
 
-2. secondly we debiased the outcome variable $Q$ following a similar procedure that the first step, the idea behind this is to remove the effect of the confounders $X$ on $Q$ so we will keep only the _non explained by X_ variance of $Q$ ( $\hat{Q}$ ).
+2. Secondly, we debiased the outcome variable $Q$ following a similar procedure that the first step, the idea behind this is to remove the effect of the confounders $X$ on $Q$ so we will keep only the _non explained by X_ variance of $Q$ ( $\hat{Q}$ ).
 
 $$Q = \gamma_X*X + \gamma_0$$
 
@@ -63,7 +63,7 @@ This is incredibly powerful for causal inference. It says that I can build a mod
 
 Also is worth noting that we should keep everything in the [regression world][5] in order to use orthogonalization
 
-Notes from the [Orthogonalization article][1]
+
 
 [Comment]: References 
 [1]: <https://matheusfacure.github.io/python-causality-handbook/Debiasing-with-Orthogonalization.html#linear-regression-reborn>
@@ -71,4 +71,5 @@ Notes from the [Orthogonalization article][1]
 [3]: <https://hastie.su.domains/Papers/ESLII.pdf#page=71>
 [4]: <https://mixtape.scunning.com/05-matching_and_subclassification#propensity-score-methods>
 [5]: <https://matheusfacure.github.io/python-causality-handbook/Debiasing-with-Orthogonalization.html#key-ideas:~:text=Finally%2C%20before%20we,run%20the%20risk%3F>
+[6]: <https://matheusfacure.github.io/python-causality-handbook/landing-page.html>
 

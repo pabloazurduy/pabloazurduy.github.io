@@ -13,15 +13,12 @@ math: true
 
 What is Synthetic Control? In the simplest terms, synthetic control is a methodology that allows us to understand the effects of a treatment when an experiment is not possible and we don't have a good substitute for a control group. This type of quasi-experiment is very common, especially in public policy, new government programs, new regulations, changes in the health system, and more. 
 
-👉🏼 In this post, we'll be taking a high-level look at synthetic control using one of the first methodologies available in the literature. For a more in-depth understanding, we recommend reading the original chapter of ["The Causal Inference: The Mixtape"][1]. 
-
-Without further ado, let's dive in! 🤿
-
+For a more in-depth understanding, I recommend reading the original chapter of ["The Causal Inference: The Mixtape"][1]. 
 
 # Introduction to Synthetic Control
 *based on [link][1]*
 
-Synthetic control is an event studies methodology that is super close to [diff and diff][2]. It is usually used when DnD is limited for one of two reasons:
+Synthetic control (SC) is an event studies methodology that is very similar to [diff and diff (DnD)][2]. I usually describe SC as DnD plus matching. SC is usually used when DnD is limited for one of two reasons:
 
 1. We don't have a way to select the control units for our treatment group, and this can introduce selection bias, given that our criteria will be subjective.
 

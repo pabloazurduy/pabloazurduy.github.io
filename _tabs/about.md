@@ -9,6 +9,8 @@ order: 4
 
 Hi there! My name is Pablo Azurduy. I have a MSc in Operations Research and I'm currently a Data Scientist at Uber (based in Amsterdam 🇳🇱). 
 
+![Pablo Azurduy Avatar](https://avatars.githubusercontent.com/u/24685386?v=4){: w="240" .right }
+
 I started my career as a Data Scientist at Walmart Chile (6 years ago) and then at Latam Airlines ✈️. My focus was mostly on Optimization (Linear Optimization) some prediction and ML problems. Most of the problems that I've worked so far can be framed on the [predict-then-optimize][2] family. 
 
 At Uber, my major task has been on incentives and promotions optimization, algorithms for promotions, experimentation, and [Causal Inference][3] to understand the effects of promotions and how to optimize over them. 

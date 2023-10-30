@@ -4,7 +4,7 @@ date: 2023-04-21 17:38:26 +/-0800
 categories: [Causal Inference, Synthetic Control]
 tags: [causal_inference, notes]     # TAG names should always be lowercase
 img_path: /assets/img/posts/2023-04-21/
-image: synthetic_control_1.png
+image: peanut_img.png
 comments: true
 math: true
 ---
@@ -89,6 +89,7 @@ Therefore the function $w_j^*(V)$ will be given by the $argmin$ of the first opt
 [Abadie, Diamond, and Hainmueller (2010)][5] expound on the method by using a cigarette tax in California called Proposition 99. They compare California with a synthetic control based on states that didn't approve any regulation.
 
 ![Synthetic Control img](synthetic_control_1.png){: h='400'}
+_Scott Cunningham, "Synthetic Control, California cigarette sales vs the rest of the country" 21 Mar. 2023. Used under Fair Use, no commercial intent, for educational purposes only. [Original Source][8]_
 
 
 How do we determine whether the observed difference between the two series is a statistically significant difference? After all, we only have two observations per year. **Maybe the divergence between the two series is nothing more than a prediction error, and any model chosen would’ve done that**, even if there was no treatment effect.
@@ -114,14 +115,19 @@ $$
 [Abadie, Diamond, and Hainmueller (2010)][5] recommend iteratively dropping the states whose pre-treatment RMSPE is considerably different than California’s because as you can see, they’re kind of blowing up the scale and making it hard to see what’s going on. 
 
 ![Synthetic Control img 2](synthetic_control_2.png){: h='400'}
+_Scott Cunningham, "Synthetic Control, Placebo distribution using all units as donor pool" 21 Mar. 2023. Used under Fair Use, no commercial intent, for educational purposes only. [Original Source][9]_
+
 
 They do this in several steps, but I’ll just skip to the last step (Figure 10.5). In this, they’ve dropped any state unit from the graph whose pre-treatment RMSPE is more than two times that of California’s. This therefore limits the picture to just units whose model fit, pre-treatment, was pretty good, like California’s.
 
 ![Synthetic Control 3](synthetic_control_3.png){: h='400'}
+_Scott Cunningham, "Synthetic Control, Pre-Proposition 99 RMSPE$\geq$2 times Pre-Pop 99 RMSPE for CA" 21 Mar. 2023. Used under Fair Use, no commercial intent, for educational purposes only. [Original Source][10]_
+
 
 But, ultimately, the inference is based on those exact $p$-values. So the way we do this is we simply create a histogram of the ratios, and more or less mark the treatment group in the distribution so that the reader can see the exact $p$-value associated with the model. To do that we basically build the distributions of the rations pre-post RMSPE and we estimate the probability of getting the result for the actual treated unit. In this case, this is 0.026, which is less than 5%.
 
 ![Synthetic Control 4](synthetic_control_4.png){: h='400'}
+_Scott Cunningham, "Synthetic Control,Histogram of post/pre RMSPE of all units." 21 Mar. 2023. Used under Fair Use, no commercial intent, for educational purposes only. [Original Source][11]_
 
 Another valid way to check for the validity of our models is to use a "placebo" treatment date, [Abadie, Diamond, and Hainmueller (2015)][7] to check if the synthetic control model is actually a good predictor of the outcome value in the treatment city. 
 
@@ -134,6 +140,10 @@ Another valid way to check for the validity of our models is to use a "placebo" 
 [5]: <https://mixtape.scunning.com/references.html#ref-Abadie2010>
 [6]: <https://mixtape.scunning.com/references.html#ref-Firpo2018>
 [7]: <https://mixtape.scunning.com/references.html#ref-Abadie2015>
+[8]: <https://mixtape.scunning.com/10-synthetic_control#fig-scm1>
+[9]: <https://mixtape.scunning.com/10-synthetic_control#fig-scm5>
+[10]: <https://mixtape.scunning.com/10-synthetic_control#fig-scm6>
+[11]: <https://mixtape.scunning.com/10-synthetic_control#fig-scm7>
 
 
 [//]: <> (Some snippets)

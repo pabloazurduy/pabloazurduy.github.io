@@ -7,7 +7,7 @@ order: 4
 
 ## 👋 About Me 
 
-Hi there! My name is Pablo Azurduy. I have a MSc in Operations Research and I'm currently a Data Scientist at Uber (based in Amsterdam 🇳🇱). 
+Hi there! My name is Pablo Azurduy. I have a MSc in Operations Research and I'm currently Ops Manager (formerly Data Scientist) at Uber (based in Amsterdam 🇳🇱). 
 
 ![Pablo Azurduy Avatar](https://avatars.githubusercontent.com/u/24685386?v=4){: w="240" .right }
 

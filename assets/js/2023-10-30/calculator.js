@@ -21,60 +21,7 @@ document.getElementById('calculateButton').addEventListener('click', function() 
   let prob = parseFloat(value);
   let output = isNaN(prob) ? value : `Fire(1) = ${prob}, Fire(0) = ${1 - prob}`;
   document.getElementById('output').innerHTML = output;
-  createPlot();
 });
-
-function createPlot() {
-  let trueAlarm = 1;
-  let dismissedAlarm = 5;
-  let xValues = [];
-  let yValues1 = [];
-  let yValues2 = [];
-
-  for (let falseAlarm = 0; falseAlarm <= 50; falseAlarm++) {
-    let combination = combinations.find(c => 
-      c.falseAlarm === falseAlarm && 
-      c.trueAlarm === trueAlarm && 
-      c.dismissedAlarm === dismissedAlarm
-    );
-
-    if (combination) {
-      let prob = parseFloat(combination.prob);
-      xValues.push(falseAlarm);
-      yValues1.push(prob);
-      yValues2.push(1 - prob);
-    }
-  }
-
-  let trace1 = {
-    x: xValues,
-    y: yValues1,
-    mode: 'lines+markers',
-    name: 'Fire(1)'
-  };
-
-  let trace2 = {
-    x: xValues,
-    y: yValues2,
-    mode: 'lines+markers',
-    name: 'Fire(0)'
-  };
-
-  let data = [trace1, trace2];
-
-  let layout = {
-    title: 'Probability of Fire(1) and Fire(0)',
-    xaxis: {
-      title: 'False Alarm Count'
-    },
-    yaxis: {
-      title: 'Probability'
-    }
-  };
-
-  Plotly.newPlot('plot', data, layout);
-}
-
 
 let combinations = [
 { falseAlarm: 1, trueAlarm: 1, dismissedAlarm: 1, prob: 0.5 },

@@ -181,11 +181,11 @@ You can use the following calculator to estimate the probability of fire given t
 
 ### The cost of the false alarms
 
-For the sake of this example, let's imagine that the people in the office update their priors based on the Bayesian model that we proposed. This means that eventually, their posterior probability estimations about a real emergency will be very low. In other words, they would not believe sh*t. Let's plot how the fire probability will look like with $TA=1$, $DA=5$, and a varying number of false alarms.
+For the sake of this example, let's imagine that the people in the office update their priors based on the Bayesian model that we proposed. This means that eventually, their posterior probability estimations about a real emergency will be very low. In other words, they would not believe sh*t. Let's plot how the fire probability will look like with, and a varying number of false alarms.
 
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<script src="/assets/js/2023-10-30/calculator.js"></script>
-<div id="plot"></div>
+{% include bayes_plot.html %}
+
+
 
 Depending on how much people value their lives, we may see more or fewer people ignoring the alarm, which can or can't be concerning, for multiples reasons.
 

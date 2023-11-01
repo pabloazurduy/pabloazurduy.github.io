@@ -32,9 +32,9 @@ F --> M
 
 Each variable has a binary status $X \in [0,1]$. In the case of $F=1$, it represents fire, while $F=0$ represents no fire. Similarly, $A=1$ represents the event of the alarm being triggered, and $A=0$ otherwise. Finally, $M=1$ represents the status of the administrator confirming the alarm, and $M=0$ otherwise.
 
-Each variable conditional probability can be added into a table. In this case as an example I will fill the probabilities with a value just to make the example clearer.
+Each variable conditional probability can be added into a table. In this case as an example **I will fill the probabilities with a value just to make the example clearer**.
 
-Fire $F$ probabilities 
+Fire $F$ probabilities (just using this numbers as an example) 
 
 | $F$        | Probability |
 |------------|------------:|
@@ -50,13 +50,13 @@ You can see the Alarm ($A$) conditional probabilities in the following table:
 | 0          |   0.2      |   0.8       |
 | 1          |   0.99     |   0.01      |
 
-In the Alarm probability table, we can see that the probability of the alarm sounding given that there is a fire is $P(A=1|F=1)=0.99$, and the probability of the alarm not detecting a fire is:
+In the Alarm probability table, we can see that the probability of the alarm sounding given that there is a fire is $P(A=1\|F=1)=0.99$, and the probability of the alarm not detecting a fire is:
 
 $$P(A=0|F=1)=1-P(A=1|F=1)=0.01$$
 
 As you can see, the last column is just the complement of the middle one, so it can theoretically be omitted.
 
-The Slack Message node $M$ has conditional probabilities that depend on both $A$ and $F$. For example, we can observe from the table that the probability of a Slack Message being sent when the alarm is not raised is zero $P(M=1|A=0, F=0)=0$
+The Slack Message node $M$ has conditional probabilities that depend on both $A$ and $F$. For example, we can observe from the table that the probability of a Slack Message being sent when the alarm is not raised is zero $P(M=1\|A=0, F=0)=0$
 
 | F          | A          | $P(M=1\|F,A)$| $P(M=0\|F,A)$  |
 |:----------:|----------:|-------------:|--------------:|
@@ -65,7 +65,7 @@ The Slack Message node $M$ has conditional probabilities that depend on both $A$
 |    1       |    0       |     0.5       |   0.5          |
 |    1       |    1       |     1         |   0            |
 
-This tables are known as [CPD][4] tables (conditional probability distribution tables). and in our example we don't know the values, our observed dataset $D$ its just a list of events like:
+This tables are known as [CPD][4] tables (conditional probability distribution tables). In our example we don't know the values, our observed dataset $D$ its just a list of events like:
 
 
 | F | A | M |

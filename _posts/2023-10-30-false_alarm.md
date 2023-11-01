@@ -178,13 +178,13 @@ Just for the sake of fun, I created a simulated dataset varying one of three pos
 You can use the following calculator to estimate the probability of fire given that there's a slack message and the alarm is ringing, i.e., $P(F =1\| M=1, A=1)$. Simply input the values and the calculator will do the rest.
 
 
-{% include bayes_calculator.html %}
+{% include 2023-10-30/bayes_calculator.html %}
 
 ### The cost of the false alarms
 
 For the sake of this example, let's imagine that the people in the office update their priors based on the Bayesian model that we proposed. This means that eventually, their posterior probability estimations about a real emergency will be very low. In other words, they would not believe sh*t. Let's plot how the fire probability will look like with, and a varying number of false alarms.
 
-{% include bayes_plot.html %}
+{% include 2023-10-30/bayes_plot.html %}
 
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script src="/assets/js/2023-10-30/calculator.js"></script>

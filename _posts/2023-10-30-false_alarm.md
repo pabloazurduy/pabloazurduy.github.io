@@ -3,7 +3,8 @@ title: Should I evacuate? -The False Alarm Problem-
 date: 2023-10-30 21:00:00 +/-0800
 categories: [Bayesian Inference, Bayesian Networks]
 tags: [bayesian inference, bayesian networks, tutorial]     # TAG names should always be lowercase
-img_path: /assets/img/posts/2023-01-12/
+img_path: /assets/img/posts/2023-10-30/
+image: home.jpeg
 comments: true
 math: true
 mermaid: true

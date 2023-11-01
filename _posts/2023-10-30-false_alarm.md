@@ -11,7 +11,7 @@ mermaid: true
 
 ## A made up story (-not based on real events-)
 
-Imagine that you work in an office where the fire alarm goes off from time to time without any apparent reason. Maybe it's because there's a construction site nearby that triggers the smoke detectors, or maybe the system isn't working properly.
+Imagine that you work in an office where the fire alarm starts ringing from time to time without any apparent reason. Maybe it's because there's a construction site nearby that triggers the smoke detectors, or maybe the system isn't working properly.
 
 To address the issue of false alarms, the office administration implements a second validation process that sends a message via an internal Slack channel to confirm whether the alarm is real or not. However, this process still has a probability of sending false alarms. After several false alarms and pointless evacuations, you start to wonder: what's the probability that there's a real fire in the building? 
 
@@ -19,7 +19,7 @@ Introducing: [Bayesian Networks][1]
 
 ## Bayesian Networks
 
-As someone who, like me, enjoys Bayesian probability, you can transform this problem into a set of random variables and certain relationships between them. We will make use of a well-known structure called ["Bayesian networks"][2] that will allow us to first fit certain data to determine the underlying probabilities, and secondly, to use the network to answer questions such as, "If the alarm went off and there's no Slack message, what is the probability of a fire in the building?"
+As someone who, like me, enjoys Bayesian probability, you can transform this problem into a set of random variables and certain relationships between them. We will make use of a well-known structure called ["Bayesian networks"][2] that will allow us to first fit certain data to determine the underlying probabilities, and secondly, to use the network to answer questions such as, "If the alarm starts ringing and there's no Slack message, what is the probability of a fire in the building?"
 
 To estimate the probability of a real fire in the building, we will define three binary random variables: Fire ($F$), Alarm ($A$), and Slack Message ($M$). We will define their relationships using the following graph (also known as [DAG][3]) 
 
@@ -165,14 +165,14 @@ This will output:
 ### Should I Evacuate ? 
 
 
-> Warning: This calculation is for educational purposes only. Do not rely on it during an emergency. If the alarm goes off, evacuate.
+> Warning: This calculation is for educational purposes only. Do not rely on it during an emergency. If the alarm starts ringing, evacuate.
 {: .prompt-warning }
 
 Just for the sake of fun, I created a simulated dataset varying one of three possible events (I disregarded other types of events to reduce the number of combinations):
 
 1. **True Alarm** $(A,M,F) = (1,1,1)$. There is a fire, the alarm sounds and the message was sent.
-2. **False Alarm** $(A,M,F) =(1,1,0)$. The alarm went off, the message was sent, but there's no fire.
-3. **Dismissed Alarm** $(A,M,F) = (1,0,0)$. The alarm went off, but it was disregarded via slack, and there's no fire.
+2. **False Alarm** $(A,M,F) =(1,1,0)$. The alarm went on, the message was sent, but there's no fire.
+3. **Dismissed Alarm** $(A,M,F) = (1,0,0)$. The alarm went on, but it was disregarded via slack, and there's no fire.
 
 You can use the following calculator to estimate the probability of fire given that there's a slack message and the alarm is ringing, i.e., $P(F =1\| M=1, A=1)$. Simply input the values and the calculator will do the rest.
 
@@ -185,13 +185,15 @@ For the sake of this example, let's imagine that the people in the office update
 
 {% include bayes_plot.html %}
 
-
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="/assets/js/2023-10-30/calculator.js"></script>
+<div id="plot"></div>
 
 Depending on how much people value their lives, we may see more or fewer people ignoring the alarm, which can or can't be concerning, for multiples reasons.
 
 ## Conclusion
 
-If the alarm goes off, evacuate. It's also important to fix any broken alarms, as this helps people trust the system and evacuate accordingly. 
+If the alarm starts ringing, evacuate. It's also important to fix any broken alarms, as this helps people trust the system and evacuate accordingly. 
 
 
 

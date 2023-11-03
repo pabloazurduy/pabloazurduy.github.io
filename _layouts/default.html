@@ -19,10 +19,16 @@ layout: compress
   {% include head.html %}
 
   <body>
-    {% unless page.layout == "post" %}
     {% include sidebar.html lang=lang %}
-    {% endunless %}
     
+    {% if page.layout == "post" %}
+    <style>
+        #sidebar {
+          transform: translateX(-260px); /* hide */
+          -webkit-transform: translateX(-260px);
+        }
+    </style>
+    {% endif %}
 
     <div id="main-wrapper" class="d-flex justify-content-center">
       <div class="container d-flex flex-column px-xxl-5">

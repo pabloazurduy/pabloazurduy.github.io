@@ -18,6 +18,8 @@ To address the issue of false alarms, the office administration implements a sec
 
 Introducing: [Bayesian Networks][1]
 
+_I don't care, take me to the [calculator](#calculator)_
+
 ## Bayesian Networks
 
 As someone who, like me, enjoys Bayesian probability, you can transform this problem into a set of random variables and certain relationships between them. We will make use of a well-known structure called ["Bayesian networks"][2] that will allow us to first fit certain data to determine the underlying probabilities, and secondly, to use the network to answer questions such as, "If the alarm starts ringing and there's no Slack message, [what is the probability of a fire in the building?](#calculator)"
@@ -44,7 +46,7 @@ Fire $F$ probabilities (just using this numbers as an example)
 
 In the upper table, we can see that the probability of fire is 0.01 and the probability of non-fire its 0.99. We can also notice that this table is not conditional on any other variables; fire is an **independent node**. However, we will see that this changes in the case of $A$, where $A$ probability depends on the fire status. 
 
-You can see the Alarm ($A$) conditional probabilities in the following table:
+You can see the Alarm ($A$) conditional probabilities in the following table. (again made up values):
 
 | $F$        | $P(A=1\|F)$ | $P(A=0\|F)$|
 |------------|-----------:|------------:|
@@ -57,7 +59,7 @@ $$P(A=0|F=1)=1-P(A=1|F=1)=0.01$$
 
 As you can see, the last column is just the complement of the middle one, so it can theoretically be omitted.
 
-The Slack Message node $M$ has conditional probabilities that depend on both $A$ and $F$. For example, we can observe from the table that the probability of a Slack Message being sent when the alarm is not raised is zero $P(M=1\|A=0, F=0)=0$
+The Slack Message node $M$ has conditional probabilities that depend on both $A$ and $F$ (this are again made up values). For example, we can observe from the table that the probability of a Slack Message being sent when the alarm is not raised is zero $P(M=1\|A=0, F=0)=0$
 
 | F          | A          | $P(M=1\|F,A)$| $P(M=0\|F,A)$  |
 |:----------:|----------:|-------------:|--------------:|
@@ -66,7 +68,9 @@ The Slack Message node $M$ has conditional probabilities that depend on both $A$
 |    1       |    0       |     0.5       |   0.5          |
 |    1       |    1       |     1         |   0            |
 
-This tables are known as [CPD][4] tables (conditional probability distribution tables). In our example we don't know the values, our observed dataset $D$ its just a list of events like:
+These tables are known as [CPD][4] tables (conditional probability distribution tables). Usually in life, we don't know these tables. Knowing the actual probabilities would make our estimation just a simple multiplication between conditions. but life its hard, so we will need to **infer** them.
+
+Let's assume that our observed dataset $D$ its just a list of events like:
 
 
 | F | A | M |
@@ -78,7 +82,7 @@ This tables are known as [CPD][4] tables (conditional probability distribution t
 | 1 | 0 | 0 |
 | .. | .. | .. |
 
-where each row corresponds to an historical event.
+Each row corresponds to a historical event. Using these values, we would like to infer what the actual [CPD][4] tables look like.
 
 ### Making Inference 
 

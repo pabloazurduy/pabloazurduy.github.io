@@ -14,13 +14,13 @@ mermaid: true
 
 Imagine that you work in an office where the fire alarm starts ringing from time to time without any apparent reason. Maybe it's because there's a construction site nearby that triggers the smoke detectors, or maybe the system isn't working properly.
 
-To address the issue of false alarms, the office administration implements a second validation process that sends a message via an internal Slack channel to confirm whether the alarm is real or not. However, this process still has a probability of sending false alarms. After several false alarms and pointless evacuations, you start to wonder: what's the probability that there's a real fire in the building? 
+To address the issue of false alarms, the office administration implements a second validation process that sends a message via an internal Slack channel to confirm whether the alarm is real or not. However, this process still has a probability of sending false alarms. After several false alarms and pointless evacuations, you start to wonder: [what's the probability that there's a real fire in the building?"](#calculator) 
 
 Introducing: [Bayesian Networks][1]
 
 ## Bayesian Networks
 
-As someone who, like me, enjoys Bayesian probability, you can transform this problem into a set of random variables and certain relationships between them. We will make use of a well-known structure called ["Bayesian networks"][2] that will allow us to first fit certain data to determine the underlying probabilities, and secondly, to use the network to answer questions such as, "If the alarm starts ringing and there's no Slack message, what is the probability of a fire in the building?"
+As someone who, like me, enjoys Bayesian probability, you can transform this problem into a set of random variables and certain relationships between them. We will make use of a well-known structure called ["Bayesian networks"][2] that will allow us to first fit certain data to determine the underlying probabilities, and secondly, to use the network to answer questions such as, "If the alarm starts ringing and there's no Slack message, [what is the probability of a fire in the building?](### Should I Evacuate ?)"
 
 To estimate the probability of a real fire in the building, we will define three binary random variables: Fire ($F$), Alarm ($A$), and Slack Message ($M$). We will define their relationships using the following graph (also known as [DAG][3]) 
 
@@ -163,7 +163,7 @@ This will output:
 | F(1) |   0.0909 |
 +------+----------+
 ```
-### Should I Evacuate ? 
+### Should I Evacuate ? {#calculator}
 
 
 > Warning: This calculation is for educational purposes only. Do not rely on it during an emergency. If the alarm starts ringing, evacuate.

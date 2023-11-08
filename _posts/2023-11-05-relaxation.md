@@ -4,9 +4,10 @@ date: 2023-11-05 10:00:00 +/-0800
 categories: [Optimization, Linear Optimization, Relaxation]
 tags: [LP, linear_optimization, notes, documentation]     # TAG names should always be lowercase
 img_path: /assets/img/posts/2023-11-05/
-# image: peanut_img.png
+image: expectations.png
 comments: true
 math: true
+mermaid: true
 ---
 
 
@@ -22,7 +23,9 @@ After finishing my degree, I started working on various optimization models in d
 1. It should cost less than $100.
 1. It has to be built in 5 months.
 1. It has to be made of paper and tape.
- 
+
+![my life](expectations.png){: h='300'}
+
 Yes, that kind of problems. So you quickly learn, after a few "negotiations" with the client that  __not all the constraints have the same "importance"__, some of them can be relaxed some others not, and you have to "tweak" your model to do so. 
 
 ## Easy-to-Implement Solutions
@@ -31,19 +34,21 @@ On the open source world, you usually have a very limited amount of solvers and 
 
 Basically what we do its to define a region $D$ where the constraint will be penalty free. 
 
-$$g(x) = c \to g(x) \in D $$
+$$ g(x) = c \to g(x) \in D $$
 
 Where $D$ consist usually by lower and upper bound $D=[{d}_{low},{d}_{high}]$, along with a penalty cost `rhs`, `lhs`. The [documentation][1] is not very clear, but based on the [tutorial][3], it seems like this will add a penalization term into the objective function (1), which is manually added into the definition of the elastic constraint  `[l]rhs`.
 
 $$\min f(x) - rsh*\delta_{g} \tag{1}  $$
+
 $$\text{st. }  x \in S$$
 
 Another possible alternative is that this actually solves a sub-optimization problem that minimizes the deviation of the constraint, given that we need the problem to be feasible (2). However, in my practical experience, I found that the results were inconsistent.
 
-$$ \min {\delta_{high}*lhs + \delta_{low}*rhl}  \tag{2}$$
-$$\text{st. }  x \in S$$
+$$ \min {\delta_{high}*lhs + \delta_{low}*rhl}  \tag{2} $$
 
-Where $\delta_{<i>}$ corresponds to the constraint deviation, also known as "slack variable". 
+$$\text{st. }  x \in S $$
+
+Where $\delta_{i}$ corresponds to the constraint deviation, also known as "slack variable". 
 
 ### The Limitations of the above solutions 
 
@@ -82,12 +87,15 @@ Let's discuss the `ConflictFinder` algorithm in more detail.
 The ConflictFinder is an algorithm that searches for sets of constraints that cannot be reduced further, also known as Irreducible Infeasible Sets (IIS). These sets contain a group of constraints that, if any one of them is eliminated, the problem becomes feasible. For example, the set of constraints:
 
 $$x\ge1$$
+
 $$x\le0$$
 
 Is an IIS because it cannot be reduced further. On the other hand, the set of constraints:
 
 $$x\ge1$$
+
 $$x\ge2$$
+
 $$x\le0$$
 
 is an infeasible set but can still be reduced further, so it is not an IIS. There are several basic algorithms that can help solve this problem, and I have implemented a few of them described in the publication by [Olivier Guieu and John W. Chinneck (1998)][6].
@@ -160,9 +168,11 @@ As you may have noticed, there is a `MANDATORY` level for constraints that shoul
 
 The sub-optimization problem that we will solve involves minimizing the sum of the slack variables, subject to the constraints of the IIS that are at the relaxable level. We always start with the lowest level on the IIS, and if it's not feasible, we increase the levels by one until the IIS is feasible or we reach the mandatory level. In the latter case, we have found an infeasible problem.
 
-$$ \min \sum_{i \in IIS}{|S_{i}*C_{lvl}(lvl(i))|} $$
+$$\min \sum_{i \in IIS}{|S_{i}*C_{lvl}(lvl(i))|} $$
+
 $$\text{st. } g_{i}(x)+ S_{i}  = 0  \quad \forall{i} \in \text{Relaxed Levels}$$
-$$  g_{i}(x)  = 0  \quad \forall{i} \in \text{Higher Levels}$$
+
+$$g_{i}(x)  = 0  \quad \forall{i} \in \text{Higher Levels}$$
 
 On the objective function of this sub-optimization problem, we add a cost that increases for higher levels. This is how we can handle situations where more than one level is being relaxed simultaneously. The cost is $10^{lvl}$ times higher for level $lvl$. 
 
@@ -183,7 +193,7 @@ print(cr.slack_by_crt)            # summary of all relaxation values (slacks) of
 
 There are a few limitations to this algorithm:
 
-1. The sub-problem objective function is the absolute value of the slacks, so it's the same for the problem to relax one or ten constraints that sum up to the same value. `feasopt`` has other objective function alternatives, such as $\sum S^2$ or the number of violated constraints, and so on. In this implementation, we only consider the sum of the absolute values.
+1. The sub-problem objective function is the absolute value of the slacks, so it's the same for the problem to relax one or ten constraints that sum up to the same value. `feasopt` has other objective function alternatives, such as $\sum S^2$ or the number of violated constraints, and so on. In this implementation, we only consider the sum of the absolute values.
 
 1. There are scenarios when a set of constraints can be alternated in very inefficient ways, making this algorithm take forever to complete. It's a weird scenario, but I've experienced it. It happens when a large set of constraints needs to be relaxed against a higher-level constraint, and we sub-select them one by one against the other one in an eternal iteration. To fix this, I added a `fast_relaxer` parameter that implements a modified version of this algorithm. When finding an IIS, it will include all the constraints of the lower level in the original problem and relax them all at once and keep going. Yes, I know, it's very non-elegant, but it helps in situations like the one described above.
 
@@ -191,7 +201,7 @@ There are a few limitations to this algorithm:
 
 ## Final thoughts
 
-I learned a lot building this relaxer. I did a pull request on the [python-mip repo][11] to add this module. However, I have updated it and failed to do the pull request again. Also, I never added this to the package documentation, so I doubt that anyone has used it besides me. This post is the first attempt to document this algorithm. Let's hope that someone reads it. If you are interested and I haven't pushed the pull request on the repository yet, push me to do it 😂. Thanks!
+I learned a lot building this relaxer. I did a pull request on the [python-mip repo][11] to add this [module][10]. However, I have updated it and failed to do the pull request again. Also, I never added this to the package documentation, so I doubt that anyone has used it besides me. This post is the first attempt to document this algorithm. Let's hope that someone reads it. If you are interested and I haven't pushed the pull request on the repository yet, push me to do it 😂. Thanks!
 
 
 [1]:<https://en.wikipedia.org/wiki/Nurse_scheduling_problem>

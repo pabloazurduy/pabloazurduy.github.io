@@ -114,7 +114,7 @@ status = model.optimize()
 print(f"Solution status: {status}")
 
 # find the IIS
-cf = conflict.ConflictFinder(my_infeasible_model)
+cf = conflict.ConflictFinder(model)
 iis = cf.find_iis(method=conflict.IISFinderAlgorithm.DELETION_FILTER) 
 print(iis)
 ```
@@ -136,25 +136,62 @@ Inspired on `feasopt` I added into the [python-mip library][8] into the constrai
     MANDATORY = 7
 ```
 
-we developed a first version of the relaxation algorithm [`hierarchy_relaxer`][10] that will consist basically in iteratively search for IIS, to then, solve a sub-optimization problem that relax the constraints on the minimum amount possible until the IIS its feasible, Then we include the relaxed constraints (constraints + slack values) on the original problem and solve again. 
-
+We developed a first version of the relaxation algorithm [`hierarchy_relaxer`][10] that will consist basically in iteratively search for IIS, to then, solve a sub-optimization problem that relax the constraints on the minimum amount possible until the IIS its feasible, Then we include the relaxed constraints (constraints + slack values) on the original problem and solve again. 
 
 ```mermaid
-graph TD
+graph TB
     M[Infeasible Model]
     M --> CF[ConflictFinder]
-    CF -- IIS --> CR[ConflictRelaxer]
-    CR --> N{is relaxable?}
-    N -- Yes --> D[Sub-optimization problem]
-    N -- No --> inf((Infeasible Problem))
-    D --> E[Add relaxed constraints to original problem]
-    E --> F[Solve original problem again]
-    F --> G[Feasible solution]
+    CF -- IIS --> N{is relaxable?}
+    subgraph ConflictRelaxer
+        direction TB 
+        N -- No --> inf((Infeasible Problem))
+        N -- Yes --> SO[Sub-optimization problem]
+        SO --> RP[Add relaxed constraints to SubProblem]
+        RP --> C{is feasible?}
+        C -- Yes --> FP((Solved IIS))
+        C -- No, increase relaxation level --> N
+    end
+    
 
 ```
 
+As you may have noticed, there is a `MANDATORY` level for constraints that should never be relaxed. If the IIS only contains mandatory constraints at the lowest level, the problem will be infeasible. This is the purpose of the `"is relaxable?"` node.
 
+The sub-optimization problem that we will solve involves minimizing the sum of the slack variables, subject to the constraints of the IIS that are at the relaxable level. We always start with the lowest level on the IIS, and if it's not feasible, we increase the levels by one until the IIS is feasible or we reach the mandatory level. In the latter case, we have found an infeasible problem.
 
+$$ \min \sum_{i \in IIS}{|S_{i}*C_{lvl}(lvl(i))|} $$
+$$\text{st. } g_{i}(x)+ S_{i}  = 0  \quad \forall{i} \in \text{Relaxed Levels}$$
+$$  g_{i}(x)  = 0  \quad \forall{i} \in \text{Higher Levels}$$
+
+On the objective function of this sub-optimization problem, we add a cost that increases for higher levels. This is how we can handle situations where more than one level is being relaxed simultaneously. The cost is $10^{lvl}$ times higher for level $lvl$. 
+
+The slack value $S_i$ represents the amount by which a given constraint is relaxed. Since each constraint can have different sensitivities ($\le$, $\ge$, $=$), we add a slack variable to relax the bound accordingly.
+Finally, the code for this algorithm is available again in the same [`conflict.py`][10] module. 
+
+```python 
+cr = conflict.ConflictRelaxer(model=model)
+relaxed_model = cr.hierarchy_relaxer(relaxer_objective='min_abs_slack_val')
+
+print(cr.iis_num_iterations)      # number of IIS iterations 
+print(cr.iis_iterations)          # list of IIS iterations (constraintLists of each iteration)
+print(cr.relax_slack_iterations)  # list of dicts with {crt:slack_value} on each IIS iteration 
+print(cr.slack_by_crt)            # summary of all relaxation values (slacks) of all constraints when finished
+```
+
+### Some limitations of this approach 
+
+There are a few limitations to this algorithm:
+
+1. The sub-problem objective function is the absolute value of the slacks, so it's the same for the problem to relax one or ten constraints that sum up to the same value. `feasopt`` has other objective function alternatives, such as $\sum S^2$ or the number of violated constraints, and so on. In this implementation, we only consider the sum of the absolute values.
+
+1. There are scenarios when a set of constraints can be alternated in very inefficient ways, making this algorithm take forever to complete. It's a weird scenario, but I've experienced it. It happens when a large set of constraints needs to be relaxed against a higher-level constraint, and we sub-select them one by one against the other one in an eternal iteration. To fix this, I added a `fast_relaxer` parameter that implements a modified version of this algorithm. When finding an IIS, it will include all the constraints of the lower level in the original problem and relax them all at once and keep going. Yes, I know, it's very non-elegant, but it helps in situations like the one described above.
+
+1This approach does not solve for the ["Integer Infeasibilities"][6] problem. [The paper][6] provides a detailed explanation of how to identify and address these infeasibilities, but it is a more complex issue to resolve. Adding integer constraints and their relaxations can be a completely different problem. In our approach, we assume that the nature of the variable (i.e., the integer constraints) is mandatory and therefore never relaxed.
+
+## Final thoughts
+
+I learned a lot building this relaxer. I did a pull request on the [python-mip repo][11] to add this module. However, I have updated it and failed to do the pull request again. Also, I never added this to the package documentation, so I doubt that anyone has used it besides me. This post is the first attempt to document this algorithm. Let's hope that someone reads it. If you are interested and I haven't pushed the pull request on the repository yet, push me to do it 😂. Thanks!
 
 
 [1]:<https://en.wikipedia.org/wiki/Nurse_scheduling_problem>
@@ -167,3 +204,4 @@ graph TD
 [8]: <https://python-mip.readthedocs.io/en/latest/classes.html#mip.Constr>
 [9]: <https://github.com/coin-or/python-mip/blob/0b47e616aeb4520443bbff7e687bc6786edec511/mip/constants.py#L172>
 [10]: <https://github.com/pabloazurduy/python-mip-infeasibility/blob/master/conflict.py#L206>
+[11]: <https://github.com/coin-or/python-mip/blob/0b47e616aeb4520443bbff7e687bc6786edec511/mip/conflict.py>

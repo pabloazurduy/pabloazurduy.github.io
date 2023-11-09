@@ -36,7 +36,7 @@ Basically what we do is to define a region $D$ where the constraint will be pena
 
 $$ g(x) = c \to g(x) \in D $$
 
-Where $D$ consists usually by lower and upper bound $D=\[{d}_{low},{d}_{high}\]$, along with a penalty cost `rhs`, `lhs`. The [documentation][1] is not very clear, but based on the [tutorial][3], it seems like this will add a penalization term into the objective function (1), which is manually added into the definition of the elastic constraint  `[l]rhs`.
+Where $D$ consists usually by lower and upper bound $D=[d_{low},d_{high}]$ , along with a penalty cost `rhs`, `lhs`. The [documentation][1] is not very clear, but based on the [tutorial][3], it seems like this will add a penalization term into the objective function (1), which is manually added into the definition of the elastic constraint  `[l]rhs`.
 
 $$\min f(x) - rsh*\delta_{g} \tag{1}  $$
 

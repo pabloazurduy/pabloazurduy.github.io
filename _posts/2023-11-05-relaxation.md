@@ -30,13 +30,13 @@ Yes, that kind of problems. So you quickly learn, after a few "negotiations" wit
 
 ## Easy-to-Implement Solutions
 
-On the open source world, you usually have a very limited amount of solvers and among those the most frequent alternative it's to use ["elastic constraints"][2] ([tutorial][3]). Which its one of the easiest solutions. 
+On the open source world, you usually have a very limited amount of solvers and among those the most frequent alternative it's to use ["elastic constraints"][2] ([tutorial][3]). Which is one of the easiest solutions. 
 
-Basically what we do its to define a region $D$ where the constraint will be penalty free. 
+Basically what we do is to define a region $D$ where the constraint will be penalty-free. 
 
 $$ g(x) = c \to g(x) \in D $$
 
-Where $D$ consist usually by lower and upper bound $D=[{d}_{low},{d}_{high}]$, along with a penalty cost `rhs`, `lhs`. The [documentation][1] is not very clear, but based on the [tutorial][3], it seems like this will add a penalization term into the objective function (1), which is manually added into the definition of the elastic constraint  `[l]rhs`.
+Where $D$ consists usually by lower and upper bound $D=\[{d}_{low},{d}_{high}\]$, along with a penalty cost `rhs`, `lhs`. The [documentation][1] is not very clear, but based on the [tutorial][3], it seems like this will add a penalization term into the objective function (1), which is manually added into the definition of the elastic constraint  `[l]rhs`.
 
 $$\min f(x) - rsh*\delta_{g} \tag{1}  $$
 
@@ -70,7 +70,7 @@ Given that I was ~~poor as fuck~~ not able to purchase a CPLEX license,  I decid
 1. `feastopt` provides a constraint priority order. This means that when faced with infeasibility, it will only relax the lowest level constraints possible until the problem becomes feasible. However, it will only relax constraints that make the problem infeasible, not all constraints at the same level.
 1. Only when two or more constraints of different levels need to be relaxed will an arbitrary cost come into play. However, this should not happen very often.
 
-In a nutshell `feastopt` separates this problem in two algorithms. The "Conflict Finder" and the "Conflict Relaxer". 
+In a nutshell `feastopt` separates this problem into two algorithms. The "Conflict Finder" and the "Conflict Relaxer". 
 
 ```mermaid
 graph LR
@@ -131,20 +131,20 @@ Now, having a way to find an IIS we are one step to make our own `feasopt`
 
 ### The Conflict Relaxer
 
-Inspired on `feasopt` I added into the [python-mip library][8] into the constraint class `mip.Constr` a `priority` attribute. This attribute its just a `Enum` that will tell me if the constraint has one of the following [ConstraintPriorities][9]
+Inspired by `feasopt` I added into the [python-mip library][8] into the constraint class `mip.Constr` a `priority` attribute. This attribute its just an `Enum` that will tell me if the constraint has one of the following [ConstraintPriorities][9]
 
 ```python
-    # constraints levels
-    VERY_LOW_PRIORITY = 1
-    LOW_PRIORITY = 2
-    NORMAL_PRIORITY = 3
-    MID_PRIORITY = 4
-    HIGH_PRIORITY = 5
-    VERY_HIGH_PRIORITY = 6
-    MANDATORY = 7
+# constraints levels
+VERY_LOW_PRIORITY = 1
+LOW_PRIORITY = 2
+NORMAL_PRIORITY = 3
+MID_PRIORITY = 4
+HIGH_PRIORITY = 5
+VERY_HIGH_PRIORITY = 6
+MANDATORY = 7
 ```
 
-We developed a first version of the relaxation algorithm [`hierarchy_relaxer`][10] that will consist basically in iteratively search for IIS, to then, solve a sub-optimization problem that relax the constraints on the minimum amount possible until the IIS its feasible, Then we include the relaxed constraints (constraints + slack values) on the original problem and solve again. 
+We developed a first version of the relaxation algorithm [`hierarchy_relaxer`][10] that will consist basically of iteratively searching for IIS, to then, solve a sub-optimization problem that relaxes the constraints on the minimum amount possible until the IIS is feasible, Then we include the relaxed constraints (constraints + slack values) on the original problem and solve again. 
 
 ```mermaid
 graph TB
@@ -195,7 +195,7 @@ There are a few limitations to this algorithm:
 
 1. The sub-problem objective function is the absolute value of the slacks, so it's the same for the problem to relax one or ten constraints that sum up to the same value. `feasopt` has other objective function alternatives, such as $\sum S^2$ or the number of violated constraints, and so on. In this implementation, we only consider the sum of the absolute values.
 
-1. There are scenarios when a set of constraints can be alternated in very inefficient ways, making this algorithm take forever to complete. It's a weird scenario, but I've experienced it. It happens when a large set of constraints needs to be relaxed against a higher-level constraint, and we sub-select them one by one against the other one in an eternal iteration. To fix this, I added a `fast_relaxer` parameter that implements a modified version of this algorithm. When finding an IIS, it will include all the constraints of the lower level in the original problem and relax them all at once and keep going. Yes, I know, it's very non-elegant, but it helps in situations like the one described above.
+1. There are scenarios when a set of constraints can be alternated in very inefficient ways, making this algorithm take forever to complete. It's a weird scenario, but I've experienced it. It happens when a large set of constraints needs to be relaxed against a higher-level constraint, and we sub-select them one by one against the other one in an eternal iteration. To fix this, I added a `fast_relaxer` parameter that implements a modified version of this algorithm. When finding an IIS, it will include all the constraints of the lower level in the original problem relax them all at once, and keep going. Yes, I know, it's very non-elegant, but it helps in situations like the one described above.
 
 1This approach does not solve for the ["Integer Infeasibilities"][6] problem. [The paper][6] provides a detailed explanation of how to identify and address these infeasibilities, but it is a more complex issue to resolve. Adding integer constraints and their relaxations can be a completely different problem. In our approach, we assume that the nature of the variable (i.e., the integer constraints) is mandatory and therefore never relaxed.
 

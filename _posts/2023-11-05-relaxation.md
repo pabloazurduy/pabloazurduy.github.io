@@ -61,16 +61,16 @@ These approaches work well for simple infeasibility problems. However, in realit
 
 **In summary**, this approach tends to be quite unreliable and complex. That's why ["serious solvers"][5] have implemented their own robust solutions like [cplex feasopt][4].
 
-### Making my own `feastopt`  
+### Making my own `feasopt`  
 
-Given that I was ~~poor as fuck~~ not able to purchase a CPLEX license,  I decided to create my own infeasibility solver inspired by CPLEX. Let's discuss some of the features of `feastopt`:
+Given that I was ~~poor as fuck~~ not able to purchase a CPLEX license,  I decided to create my own infeasibility solver inspired by CPLEX. Let's discuss some of the features of `feasopt`:
 
-1. `feastopt` only relaxes constraints when necessary. The algorithm does not modify the objective function of the original problem by adding punishment costs or any other type of gibberish.
-1. `feastopt` does not relax all relaxable constraints when solving an infeasible problem. It only relaxes what is necessary based on a priority order.
-1. `feastopt` provides a constraint priority order. This means that when faced with infeasibility, it will only relax the lowest level constraints possible until the problem becomes feasible. However, it will only relax constraints that make the problem infeasible, not all constraints at the same level.
+1. `feasopt` only relaxes constraints when necessary. The algorithm does not modify the objective function of the original problem by adding punishment costs or any other type of gibberish.
+1. `feasopt` does not relax all relaxable constraints when solving an infeasible problem. It only relaxes what is necessary based on a priority order.
+1. `feasopt` provides a constraint priority order. This means that when faced with infeasibility, it will only relax the lowest level constraints possible until the problem becomes feasible. However, it will only relax constraints that make the problem infeasible, not all constraints at the same level.
 1. Only when two or more constraints of different levels need to be relaxed will an arbitrary cost come into play. However, this should not happen very often.
 
-In a nutshell `feastopt` separates this problem into two algorithms. The "Conflict Finder" and the "Conflict Relaxer". 
+In a nutshell `feasopt` separates this problem into two algorithms. The "Conflict Finder" and the "Conflict Relaxer". 
 
 ```mermaid
 graph LR

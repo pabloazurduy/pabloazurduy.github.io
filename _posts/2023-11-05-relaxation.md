@@ -13,11 +13,11 @@ mermaid: true
 
 ## Introduction to the "Infeaseability Problem"
 
-Optimization problems are often studied in a simplified way, without considering the real-world complexities that businesses and industries face. I recall the first time I learned about this was in a class, when a master’s student presented his thesis on a [rostering problem (NSP)][1] for a transportation firm. He revealed that his optimized solution for the rostering cost (the objective value) was actually worse than the current one. The firm wanted to reduce the number of staff for the shifts, but the model suggested that they needed to hire two more people.
+Optimization problems are frequently examined from an 'idealistic' perspective, neglecting the real-world complexities encountered by businesses and industries. I recall the first time I learned about this gap was in a presentation from a master student thesis that solved a  [rostering problem (NSP)][1] for a transportation firm. He revealed that his optimized solution for the rostering cost (the objective value) was actually **worse** than the "manual solution" already in place. The firm wanted to reduce the number of staff for the shifts, but **the model suggested that they needed to hire two more people**.
 
-He explained that the reason for this outcome was that the current schedule "relaxed" ~~ignored~~ many constraints (imposed by work regulation laws, union agreements, company policies and staff preferences). By the way, yes, they "discovered" that they were "not complying" when they built the optimization model for rostering (no comments). 
+He explained that the reason for this outcome was that the current schedule ~~ignored~~"relaxed"  many constraints (imposed by work regulation laws, union agreements, company policies and staff preferences). By the way, yes, they "discovered" that they were "not complying" when they built the optimization model for rostering ~~(no comments)~~. 
 
-After finishing my degree, I started working on various optimization models in different industries. I soon realized that many optimization problems had constraints that were very “optimistic”. ~~Luckily, none of them were as non-compliant as the rostering problem~~ 😂, but it was still quite common (in my experience) to encounter business problems that were framed in very unrealistic ways. 
+After finishing my degree, I started working on various optimization models in different industries. I soon realized that many optimization problems had constraints that were very “optimistic”. ~~Luckily, none of them were as non-compliant as the rostering problem~~ , but it was still quite common (in my experience) to encounter business problems that were framed in very unrealistic ways: 
 
 1. I want to build a rocket that can reach Mars.
 1. It should cost less than $100.
@@ -26,23 +26,26 @@ After finishing my degree, I started working on various optimization models in d
 
 ![my life](expectations.png){: h='300'}
 
-Yes, that kind of problems. So you quickly learn, after a few "negotiations" with the client that  __not all the constraints have the same "importance"__, some of them can be relaxed some others not, and you have to "tweak" your model to do so. 
+Yes, that kind of problem. Incorporating several constraints into an optimization model can result in infeasible problems
 
-## Easy-to-Implement Solutions
+However, after negotiating with your counterpart and explaining that it is not a mathematical problem but an __expectations problem__, you may come to an agreement that __not all constraints hold the same level of "importance"__. Some constraints can be relaxed, while others cannot, and you may need to adjust your model accordingly.
 
-On the open source world, you usually have a very limited amount of solvers and among those the most frequent alternative it's to use ["elastic constraints"][2] ([tutorial][3]). Which its one of the easiest solutions. 
+So let's explain the most common solutions when facing this "infeasible" optimization problems: 
+## The "easy-to-implement" solutions
 
-Basically what we do its to define a region $D$ where the constraint will be penalty free. 
+On the open source world, you usually have a very limited amount of solvers and among those the most frequent alternative it's to use ["Elastic Constraints"][2] ([tutorial][3]) or ["relaxation via objective function penalization"][12]. 
+
+On the Elastic Constraint approach what we do is to define a region $D$ where the constraint will be penalty free. Where $D$ usually consist by a lower and upper bound $D=[{d}_{low},{d}_{high}]$, along with a penalty cost `rhs`, `lhs`
 
 $$ g(x) = c \to g(x) \in D $$
 
-Where $D$ consist usually by lower and upper bound $D=[{d}_{low},{d}_{high}]$, along with a penalty cost `rhs`, `lhs`. The [documentation][1] is not very clear, but based on the [tutorial][3], it seems like this will add a penalization term into the objective function (1), which is manually added into the definition of the elastic constraint  `[l]rhs`.
+The [documentation][1] its not very clear on how this constraint its relaxed, but based on the [tutorial][3], it seems like this will add a penalization term into the objective function $(1)$, which is manually added into the definition of the elastic constraint  `[l]rhs`.
 
-$$\min f(x) - rsh*\delta_{g} \tag{1}  $$
+$$\min f(x) - rsh*\delta_{g}^{+} - lhr*\delta_{g}^{-} \tag{1}  $$
 
 $$\text{st. }  x \in S$$
 
-Another possible alternative is that this actually solves a sub-optimization problem that minimizes the deviation of the constraint, given that we need the problem to be feasible (2). However, in my practical experience, I found that the results were inconsistent.
+Based on the [documentation][1], it is not clear if the solver relaxes the constraint in a certain way or solves a sub-optimization problem $(2)$ that minimizes the deviation of the constraint. It could be either of these approaches. However, in my practical experience implementing elastic constraints, I found the results to be inconsistent. It appears that the first alternative is the one used.
 
 $$ \min {\delta_{high}*lhs + \delta_{low}*rhl}  \tag{2} $$
 
@@ -50,20 +53,25 @@ $$\text{st. }  x \in S $$
 
 Where $\delta_{i}$ corresponds to the constraint deviation, also known as "slack variable". 
 
-### The Limitations of the above solutions 
+In the ["Penalization Approach"][12] , we essentially follow the process described in equation $(1)$ in a more flexible way. When implementing this approach manually, you have the option to customize the way in which each term is penalized on the objective function. Additionally, you can normalize these values when dealing with multiple infeasibilities or transform them in non-linear ways.  
 
-These approaches work well for simple infeasibility problems. However, in reality, they usually aren't that simple. I believe there are four reasons why I tend to avoid this type of relaxation:
+Both of these approaches are simple and can be implemented easily. However, in my personal experience, they are very limited and often inconsistent. Let me explain the limitations of these approaches in more detail.
+
+### Limitations of these approaches 
+
+These approaches work well for simple infeasibility problems. However, in reality, they usually aren't that simple. I believe there are few reasons why I tend to avoid this type of relaxation:
 
 1. It typically requires a manually fixed cost value, which is very tricky to define. This unintentionally changes the optimization problem.
-1. The relaxation process either relaxes all the "relaxable" constraints or it doesn't.
+1. The relaxation process either relaxes all "relaxable" constraints or not. For feasible problems or those with only "local infeasibilities", the model implementation can become tricky.
 1. Depending on the defined punishment cost, it's possible that the optimization model relaxes the constraint when it's not necessary (if the gain in the objective function is good enough), and this is very hard to control.
 1. When more than one constraint is relaxed, it's possible that the value of the objective function becomes so disproportionate that the optimal solution makes no sense.
+1. It can be challenging to balance different cost constraints with different magnitudes, especially when prioritizing certain constraints over others. This process can be tedious and manual.
 
-**In summary**, this approach tends to be quite unreliable and complex. That's why ["serious solvers"][5] have implemented their own robust solutions like [cplex feasopt][4].
+**In summary**, this approach tends to be quite unreliable and complex. That's why ["serious solvers"][5] have implemented their own robust solutions like [CPLEX feasopt][4].
 
 ### Making my own `feastopt`  
 
-Given that I was ~~poor as fuck~~ not able to purchase a CPLEX license,  I decided to create my own infeasibility solver inspired by CPLEX. Let's discuss some of the features of `feastopt`:
+Given that I was ~~poor as fuck~~ not able to purchase a CPLEX license,  I decided to create my own infeasibility solver inspired by [`CPLEX feastopt`][4]. Let's discuss some of the features of `feastopt`:
 
 1. `feastopt` only relaxes constraints when necessary. The algorithm does not modify the objective function of the original problem by adding punishment costs or any other type of gibberish.
 1. `feastopt` does not relax all relaxable constraints when solving an infeasible problem. It only relaxes what is necessary based on a priority order.
@@ -84,7 +92,7 @@ Let's discuss the `ConflictFinder` algorithm in more detail.
 
 ### The ConflictFinder
 
-The ConflictFinder is an algorithm that searches for sets of constraints that cannot be reduced further, also known as Irreducible Infeasible Sets (IIS). These sets contain a group of constraints that, if any one of them is eliminated, the problem becomes feasible. For example, the set of constraints:
+The ConflictFinder is an [algorithm that searches][6] for sets of constraints that cannot be reduced further, also known as [Irreducible Infeasible Sets (IIS)][6]. These sets contain a group of constraints that, if any one of them is eliminated, the problem becomes feasible. For example, the set of constraints:
 
 $$x\ge1$$
 
@@ -189,7 +197,7 @@ print(cr.relax_slack_iterations)  # list of dicts with {crt:slack_value} on each
 print(cr.slack_by_crt)            # summary of all relaxation values (slacks) of all constraints when finished
 ```
 
-### Some limitations of this approach 
+### Some limitations 
 
 There are a few limitations to this algorithm:
 
@@ -215,3 +223,4 @@ I learned a lot building this relaxer. I did a pull request on the [python-mip r
 [9]: <https://github.com/coin-or/python-mip/blob/0b47e616aeb4520443bbff7e687bc6786edec511/mip/constants.py#L172>
 [10]: <https://github.com/pabloazurduy/python-mip-infeasibility/blob/master/conflict.py#L206>
 [11]: <https://github.com/coin-or/python-mip/blob/0b47e616aeb4520443bbff7e687bc6786edec511/mip/conflict.py>
+[12]: <https://en.wikipedia.org/wiki/Penalty_method>

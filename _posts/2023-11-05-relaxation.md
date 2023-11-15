@@ -13,11 +13,11 @@ mermaid: true
 
 ## Introduction to the "Infeaseability Problem"
 
-Optimization problems are frequently examined from an 'idealistic' perspective, neglecting the real-world complexities encountered by businesses and industries. I recall the first time I learned about this gap was in a presentation from a master student thesis that solved a  [rostering problem (NSP)][1] for a transportation firm. He revealed that his optimized solution for the rostering cost (the objective value) was actually **worse** than the "manual solution" already in place. The firm wanted to reduce the number of staff for the shifts, but **the model suggested that they needed to hire two more people**.
+Optimization problems are frequently studied (in academia) from an 'idealistic' perspective, ignoring how ill-defined they usually are in the industry. I recall the first time I learned about this gap was in a presentation from a master's student thesis that solved a [rostering problem (NSP)][1] for a transportation firm, the firm wanted to reduce the cost of staff for the shifts, optimizing the schedules, however, his optimized solution for the rostering problem was **worse** than the "manual solution" already in place, **the model suggested that they needed to hire two more people**.
 
-He explained that the reason for this outcome was that the current schedule ~~ignored~~"relaxed"  many constraints (imposed by work regulation laws, union agreements, company policies and staff preferences). By the way, yes, they "discovered" that they were "not complying" when they built the optimization model for rostering ~~(no comments)~~. 
+He explained that the reason behind this was that the current schedule ~~ignored~~ and "relaxed"  many constraints (imposed by work regulation laws, union agreements, company policies, and staff preferences).~~yes, they "discovered" that they were "not complying" when they were building the optimization model~~. 
 
-After finishing my degree, I started working on various optimization models in different industries. I soon realized that many optimization problems had constraints that were very “optimistic”. ~~Luckily, none of them were as non-compliant as the rostering problem~~ , but it was still quite common (in my experience) to encounter business problems that were framed in very unrealistic ways: 
+In my personal experience, I've encountered this problem several times, often this is attributed to a “too-optimistic” constraint setting. ~~Luckily, none of them were as non-compliant as the rostering problem~~. Problems are usually defined like this: 
 
 1. I want to build a rocket that can reach Mars.
 1. It should cost less than $100.
@@ -26,11 +26,11 @@ After finishing my degree, I started working on various optimization models in d
 
 ![my life](expectations.png){: h='300'}
 
-Yes, that kind of problem. Incorporating several constraints into an optimization model can result in infeasible problems
+Yes, I would like to say it's a joke. As a consequence, these problems are usually ("mathematically") unfeasible 
 
-However, after negotiating with your counterpart and explaining that it is not a mathematical problem but an __expectations problem__, you may come to an agreement that __not all constraints hold the same level of "importance"__. Some constraints can be relaxed, while others cannot, and you may need to adjust your model accordingly.
+This usually ends up with you explaining to the stakeholders that "this is not a mathematical problem but an __expectations problem__". Luckily you might end up having an agreement that __not all constraints hold the same level of "importance"__. Some constraints might be relaxed, while others cannot, and you may need to adjust your model accordingly (to make it feasible). 
 
-So let's explain the most common solutions when facing this "infeasible" optimization problems: 
+However there are "mathematical" ways to relax constraints using some business perspective, let's talk about them. 
 ## The "easy-to-implement" solutions
 
 On the open source world, you usually have a very limited amount of solvers and among those the most frequent alternative it's to use ["Elastic Constraints"][2] ([tutorial][3]) or ["relaxation via objective function penalization"][12]. 

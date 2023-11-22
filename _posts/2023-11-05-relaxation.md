@@ -30,7 +30,7 @@ Yes, I would like to say it's a joke. As a consequence, these problems are usual
 
 This usually ends up with you explaining to the stakeholders that "this is not a mathematical problem but an __expectations problem__". Luckily you might end up having an agreement that __not all constraints hold the same level of "importance"__. Some constraints might be relaxed, while others cannot, and you may need to adjust your model accordingly (to make it feasible). 
 
-However there are "mathematical" ways to relax constraints using some business perspective, let's talk about them. 
+Luckily for us, there are "mathematical" ways to relax constraints using some business perspective, let's talk about them. 
 ## The "easy-to-implement" solutions
 
 On the open source world, you usually have a very limited amount of solvers and among those the most frequent alternative it's to use ["Elastic Constraints"][2] ([tutorial][3]) or ["relaxation via objective function penalization"][12]. 

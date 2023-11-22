@@ -13,9 +13,9 @@ mermaid: true
 
 ## Introduction to the "Infeaseability Problem"
 
-Optimization problems are frequently studied (in academia) from an 'idealistic' perspective, ignoring how ill-defined they usually are in the industry. I recall the first time I learned about this gap was in a presentation from a master's student thesis that solved a [rostering problem (NSP)][1] for a transportation firm, the firm wanted to reduce the cost of staff for the shifts, optimizing the schedules, however, his optimized solution for the rostering problem was **worse** than the "manual solution" already in place, **the model suggested that they needed to hire two more people**.
+Optimization problems are frequently studied (in academia) from an 'idealistic' perspective, ignoring how ill-defined they usually are in the industry. I've learned about this gap in presentation from a master's student thesis that solved a [rostering problem (NSP)][1] for a transportation firm, the firm wanted to reduce the cost of staff for the shifts, optimizing the schedules, however, his optimized solution for the rostering problem was **worse** than the "manual solution" already in place, the model suggested that they needed to **hire two more people**.
 
-He explained that the reason behind this was that the current schedule ~~ignored~~ and "relaxed"  many constraints (imposed by work regulation laws, union agreements, company policies, and staff preferences).~~yes, they "discovered" that they were "not complying" when they were building the optimization model~~. 
+He explained that the reason behind this was that the current schedule ~~ignored~~ "relaxed"  many constraints (imposed by work regulation laws, union agreements, company policies, and staff preferences).~~yes, they "discovered" that they were "not complying" when they were building the optimization model~~. 
 
 In my personal experience, I've encountered this problem several times, often this is attributed to a “too-optimistic” constraint setting. ~~Luckily, none of them were as non-compliant as the rostering problem~~. Problems are usually defined like this: 
 

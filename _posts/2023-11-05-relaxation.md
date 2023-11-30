@@ -13,7 +13,7 @@ mermaid: true
 
 ## Introduction to the "Infeaseability Problem"
 
-Optimization problems are frequently studied (in academia) from an 'idealistic' perspective, ignoring how ill-defined they usually are in the industry. I've learned about this gap in presentation from a master's student thesis that solved a [rostering problem (NSP)][1] for a transportation firm, the firm wanted to reduce the cost of staff for the shifts, optimizing the schedules, however, his optimized solution for the rostering problem was **worse** than the "manual solution" already in place, the model suggested that they needed to **hire two more people**.
+Optimization problems are frequently studied (in academia) from an 'idealistic' perspective, ignoring how ill-defined they are usually in the industry. I've learned about this gap in presentation from a master's student thesis that solved a [rostering problem (NSP)][1] for a transportation firm, the firm wanted to reduce the cost of staff for the shifts, optimizing the schedules, however, his optimized solution for the rostering problem was **worse** than the "manual solution" already in place, the model suggested that they needed to **hire two more people**.
 
 He explained that the reason behind this was that the current schedule ~~ignored~~ "relaxed"  many constraints (imposed by work regulation laws, union agreements, company policies, and staff preferences).~~yes, they "discovered" that they were "not complying" when they were building the optimization model~~. 
 
@@ -26,16 +26,19 @@ In my personal experience, I've encountered this problem several times, often th
 
 ![my life](expectations.png){: h='300'}
 
-Yes, I would like to say it's a joke. As a consequence, these problems are usually ("mathematically") unfeasible 
+Yes, I would like to say it's a joke, but I've faced this problem more that I wish. In consequence, more than few times, optimization problems are ("mathematically") unfeasible 
 
-This usually ends up with you explaining to the stakeholders that "this is not a mathematical problem but an __expectations problem__". Luckily you might end up having an agreement that __not all constraints hold the same level of "importance"__. Some constraints might be relaxed, while others cannot, and you may need to adjust your model accordingly (to make it feasible). 
+Then You will find yourself explaining to the stakeholders that "this is not a mathematical problem but an __expectations problem__", and you (usually) end up concluding, with the stakeholder, that __not all constraints hold the same level of "importance"__. Some constraints might be relaxed, some others only if necessary and finally, others cannot be relaxed. 
 
-Luckily for us, there are "mathematical" ways to relax constraints using some business perspective, let's talk about them. 
+Now we have another problem on our hands, how can we transfer this constraint importance into our model? or, in other words, is there a way to modify our math model and convert it into a more flexible model? 
+
+Luckily for us, there are a few alternatives that we can implement to solve this problem 
+
 ## The "easy-to-implement" solutions
 
 On the open source world, you usually have a very limited amount of solvers and among those the most frequent alternative it's to use ["Elastic Constraints"][2] ([tutorial][3]) or ["relaxation via objective function penalization"][12]. 
 
-On the Elastic Constraint approach what we do is to define a region $D$ where the constraint will be penalty free. Where $D$ usually consist by a lower and upper bound $D=[{d}_{low},{d}_{high}]$, along with a penalty cost `rhs`, `lhs`
+On the Elastic Constraint approach what we do is to define a region $D$ where the constraint will be penalty free. Where $D$ usually consist by a lower and upper bound $ D = [ {d}_{low},{d}_{high} ]$, along with a penalty cost `rhs`, `lhs`
 
 $$ g(x) = c \to g(x) \in D $$
 

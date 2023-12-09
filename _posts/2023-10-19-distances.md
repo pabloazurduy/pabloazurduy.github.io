@@ -9,11 +9,11 @@ math: true
 ---
 ## Introduction 
 
-The [matching methodology][1] is a well-known and widely used technique in [observational studies][13]. When implementing this methodology via ["approximated matching"][2] or ["nearest neighborhood matching"][3], finding the closest match between two sets of data becomes crucial.
+Have you ever faced the issue of having to estimate the closest point to a point in a dataset?, or what are the points inside a $r$ distance from a point ?. I've faced this problem a few times while I was doing [matching][1] (["approximated matching"][2] or ["nearest neighborhood matching"][3]) where I basically need to find all the corresponding closest points between two sets of points (treatment, control).  
 
-In this context, efficient algorithms for exact matching are crucial for processing large datasets. Estimating all distances between all points can be increasingly time-consuming $~O(n^{2})$, especially when dealing with large datasets. 
+While estimate the distance between all the points in both groups seems like an easy task, implementing it via "brute-force" can be extremely inefficient $~O(n^{2}). 
 
-Fortunately, there are more efficient ways of doing this. To speed up nearest neighbor search, we can use data structures called [KD-Trees][4] and [Ball-Trees][5]. These structures allow us to quickly find the closest point(s) to a query point, without having to compute the distance to every point in the dataset.
+Fortunately, there are faster ways of doing this. To speed up nearest neighbor search, we can use data structures called [KD-Trees][4] and [Ball-Trees][5]. These structures allow us to quickly find the closest point(s) to a query point, without having to compute the distance to every point in the dataset.
 
 ##  KD-Tree and Ball-Tree
 

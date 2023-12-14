@@ -11,7 +11,7 @@ math: true
 
 Have you ever faced the issue of having to estimate the closest point to a point in a dataset?, or what are the points inside a $r$ distance from a point ?. I've faced this problem a few times while I was doing [matching][1] (["approximated matching"][2] or ["nearest neighborhood matching"][3]) where I basically need to find all the corresponding closest points between two sets of points (treatment, control).  
 
-While estimate the distance between all the points in both groups seems like an easy task, implementing it via "brute-force" can be extremely inefficient $~O(n^{2}). 
+While estimate the distance between all the points in both groups seems like an easy task, implementing it via "brute-force" can be extremely inefficient $~O(n^{2})$. 
 
 Fortunately, there are faster ways of doing this. To speed up nearest neighbor search, we can use data structures called [KD-Trees][4] and [Ball-Trees][5]. These structures allow us to quickly find the closest point(s) to a query point, without having to compute the distance to every point in the dataset.
 

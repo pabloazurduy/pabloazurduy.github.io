@@ -17,9 +17,9 @@ While the idea of these notes are to provide the (theorical) fundamentals, I wil
 
 # Fundamentals of Causal Inference
 
-So what is causal inference? Have you ever heard the infamous phrase "correlation doesn't mean causality"?, Yes, me too, to the point of exhaustion, so you start wondering, "well then, so WHEN CAN even study causality?", is this even possible?. 
+So what is causal inference? Have you ever heard the infamous phrase "correlation doesn't mean causality"?, as me, probably you wonder: "Is it even possible to estimate causality?". That's exactly what causal inference is, a way to estimate causality. 
 
-Causal inference is the field that studies "causality", in the most general sense, when we can **"infer"** that two variables are not only correlated, but also they have a "causal" effect one on the other. 
+More formally, Causal inference is the field that studies "causality", in the most general sense, when we can **"infer"** that two variables are not only correlated, but also they have a "causal" effect one on the other. 
 
 One way to understand causality is to frame it as a question of what would have happened if X occurred instead of Y. For instance, what would have happened if I had bought Bitcoin in 2010 when my friend Mauri suggested it? Or what would have happened if the oil price was $100 instead of $120?. how do we link this with causality ?, if we, somehow, can answer this alternative "state of the universe" ( $X$ ) we could understand what its the effect of the variable $X \to Z$. 
 

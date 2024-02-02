@@ -32,6 +32,14 @@ On the potential outcomes literature ([Rubin (1974)][6], [Splawa-Neyman (1923)][
 
 
 
+$$T(D,Y) =  \widehat{ATE}(D, Y) = E\big[Y^1\mid D=1\big] - E\big[Y^1\mid D=0\big]$$
+
+
+confidence interval 
+
+$$\delta_i = [...-0.2,-0.1, 0, 0.1 , 0.2, ...]$$
+
+$$H_0: \delta = \delta_i $$
 
 
 

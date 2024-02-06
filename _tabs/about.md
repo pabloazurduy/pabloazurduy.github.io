@@ -8,14 +8,17 @@ order: 4
 ## 👋 About Me 
 
 
-Hi there! I'm Pablo, MS in Operations Research from University de Chile and currently a Data Scientist at Uber living on Amsterdam. 
+Hi there! I'm Pablo, MS in Operations Research from University de Chile and currently a Data Scientist at Uber living on Amsterdam.  
 
 ![Pablo Azurduy Avatar](https://avatars.githubusercontent.com/u/24685386?v=4){: w="240" .right }
 
+At Uber I do a bit of everything, nowadays, I'm more focused on Causal Inference, Experimentation and Optimization. I studied Operations Research (OR) hence I try to stay as close as possible to Optimization. However, there's no perfect job, as a consequence, being a "generalist" was my path to survive. I try to keep myself studying every week, and that's one of the reasons why I start writing notes.
 
-I started to writing notes, to myself, while I was studying to help me remember things later, my memory has never been particularly good. Now, I'm trying to keep writing them but sharing with a broader audience, just because, maybe someone finds them useful too. 
+## About this blog 
 
-The idea of this blog is to share this notes with more people, they are mainly related with Data Science, [Bayesian Inference][4], [Causal Inference][3], Optimization, among others. 
+My memory has never been particularly good, so I started to writing notes for myself, while studying, to help me remember things later. Nowadays, I'm trying to keep writing but sharing publicly, just because, maybe, someone finds them useful too.
+
+The topics of this blog are; Data Science, [Bayesian Inference][4], [Causal Inference][3], Optimization, and anything other thing that I'm interested about, otherwise I wouldn't call myself a ~~involuntary~~ "generalist". 
 
 ### 📧 Contact 
 

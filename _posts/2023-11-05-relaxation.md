@@ -13,9 +13,9 @@ mermaid: true
 
 ## The reality is usually "Infeasible"
 
-While I was studying my master's, I attend to a thesis presentation from a student about a rostering optimization problem, a [rostering problem][1] consist in assigning shifts to operators in the less costly way. In this case it was an airport operator trying to optimize the worker's shifts and save costs.  For me, the most interesting thing about his thesis was not the modeling itself but the model's result. 
+While I was studying my master's degree, I attend to a thesis presentation about a rostering optimization problem, a [rostering problem][1] consist in assigning shifts to operators in the less costly way. In this case it was an airport operator trying to optimize the worker's shifts to save costs.  For me, the most interesting thing about his thesis was not the modeling itself but the model's final result. 
 
-The company was expecting this model to **reduce the cost** of the shift assignments. However, what the student found, is that the operator **needed to hire two more people** to solve the problem, increasing the cost, not reducing it. The student explained that the origin of this discrepancy was that the problem shift-constraints where usually "relaxed" on the manual solution, but when added into the mathematical model they needed to be fulfilled. 
+The company was expecting this model to **reduce the cost** of the shift assignments. However, what the student found, is that the operator **needed to hire two more people**, increasing the cost of the previous assignment. The student explained that the origin of this discrepancy was that the problem shift-constraints where usually "relaxed" on the manual solution, but when added into the mathematical model they needed to be fulfilled. 
 
 Some of these constraints were "ok to be relaxed" but some of them not (with legal implications). I don't want to say that "it was funny" that they "found out" that they were breaking the law when building a mathematical optimization model, but it was "interesting" to say the least. From what I'm aware, and according to the speaker, the operator corrected this right away. 
 

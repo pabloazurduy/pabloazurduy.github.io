@@ -11,7 +11,7 @@ mermaid: true
 ---
 
 
-## Introduction to the "Infeaseability Problem"
+## The reality is very "Infeaseability"
 
 While I was studying my masters, I remember attending to a talk about the thesis from former graduated of the program. He made his thesis on an airport operator that needed to solve a rostering optimization problem, a rostering problem consist in assigning shifts to operators in the less costly way. The most interesting thing about this thesis was not the modeling challenge but the puzzling solution. 
 
@@ -19,7 +19,7 @@ The company was expecting this model to **reduce the cost** of the current manua
 
 Some of these constraints were "ok to be relaxed" but some of them not (this had legal implications). I don't want to say that "it was funny" that they "found out" that they were breaking the law when building a mathematical optimization model, but it was "interesting" to say the least. From what I'm aware, according to the speaker, the operator corrected this right away. There were a few lessons that stick to me from this presentation. First, don't break the law, but second, mathematical optimization models are not very "flexible" when modeling constraints from "real life". 
 
-Assuming that you are not relaxing legal constraints, having a flexible optimization model can be very handy. In my personal experience, when you frame an optimization problem, for the first time, the people "from the business" comes with a challenge that looks like this: 
+Assuming that you are not relaxing legal constraints, having a flexible optimization model can be very handy. In my personal experience, the first time that you frame an optimization problem, people "from the business" will come with a challenge that looks like this: 
 
 1. We want to build a rocket that can reach Mars.
 1. It should cost less than $100.
@@ -28,7 +28,9 @@ Assuming that you are not relaxing legal constraints, having a flexible optimiza
 
 ![my life](expectations.png){: h='300'}
 
-Usually reality will hit you with a phrase `solver finished, model status: unfeasible`. Yes, mathematical models are not ready for unreal expectations. Then, you realize, as I did, that it would be handful not to add all the constraints as rules written in stone, but maybe we could find "the best possible solution" that breaks the fewer constraints as possible. Let's see how we can do that. 
+However, reality will hit you, usually using a phrase like: `solver finished, model status: unfeasible`. Yes, mathematical models are not ready for unreal expectations. 
+
+It would be handful not to add all the constraints like rules written in stone, but maybe there's a way to find "the best possible solution" that breaks the fewer constraints as possible, and just on the amount that is needed.
 
 ## The "easy-to-implement" solutions
 

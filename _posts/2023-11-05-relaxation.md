@@ -46,13 +46,15 @@ $$\min f(x) - rsh*\delta_{g}^{+} - lhr*\delta_{g}^{-} \tag{1}  $$
 
 $$\text{st. }  x \in S$$
 
-It is not clear if the solver relaxes the constraints on the same optimization problem, or if it solves a sub-optimization problem $(2)$ that minimizes the deviations of the constraints. However, in my practical experience implementing elastic constraints, I found the results to be inconsistent. My guess is that the first explanation is the one used. 
+It is not clear if the solver relaxes the constraints on the same optimization problem, or if it solves a sub-optimization problem $(2)$  
 
 $$ \min {\delta_{high}*lhs + \delta_{low}*rhl}  \tag{2} $$
 
 $$\text{st. }  x \in S $$
 
 $\delta_{i}$ corresponds to the constraint deviation, also known as "slack variable". 
+
+This model minimizes the deviations of the constraints. However, in my experience implementing elastic constraints, I found the results to be inconsistent. My guess is that the first model $(1)$ is the one used.
 
 A second alternative is the ["Penalization Method"][12]. This method is nothing more than a generalization of $(1)$. The idea is to customize the way in which constraint is penalized on the objective function. Additionally, you can normalize these values when dealing with multiple infeasibilities or transform them into non-linear terms (using approximations).  
 
@@ -206,7 +208,7 @@ There are a few limitations to this algorithm:
 
 1. There are scenarios when a set of constraints can be alternated in very inefficient ways, making this algorithm take forever to complete. It's a weird scenario, but I've experienced it. It happens when a large set of constraints needs to be relaxed against a higher-level constraint, and we sub-select them one by one against the other one in an eternal iteration. To fix this, I added a `fast_relaxer` parameter that implements a modified version of this algorithm. When finding an IIS, it will include all the constraints of the lower level in the original problem relax them all at once, and keep going. Yes, I know, it's very non-elegant, but it helps in situations like the one described above.
 
-1This approach does not solve for the ["Integer Infeasibilities"][6] problem. [The paper][6] provides a detailed explanation of how to identify and address these infeasibilities, but it is a more complex issue to resolve. Adding integer constraints and their relaxations can be a completely different problem. In our approach, we assume that the nature of the variable (i.e., the integer constraints) is mandatory and therefore never relaxed.
+1. This approach does not solve for the ["Integer Infeasibilities"][6] problem. [The paper][6] provides a detailed explanation of how to identify and address these infeasibilities, but it is a more complex issue to resolve. Adding integer constraints and their relaxations can be a completely different problem. In our approach, we assume that the nature of the variable (i.e., the integer constraints) is mandatory and therefore never relaxed.
 
 ## Final thoughts
 

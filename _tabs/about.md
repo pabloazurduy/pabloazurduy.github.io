@@ -8,7 +8,7 @@ order: 4
 ## 👋 About Me 
 
 
-Hi there! I'm Pablo, MS in Operations Research from University de Chile and currently a Data Scientist at Uber living on Amsterdam.  
+Hi there! I'm Pablo, MS in Operations Research from University de Chile and currently a Data Scientist (now in Ops) at Uber living on Amsterdam.  
 
 ![Pablo Azurduy Avatar](https://avatars.githubusercontent.com/u/24685386?v=4){: w="240" .right }
 

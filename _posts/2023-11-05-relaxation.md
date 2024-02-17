@@ -13,15 +13,15 @@ mermaid: true
 
 ## The reality is usually "Infeasible"
 
-While I was studying my master's degree, I attend to a thesis presentation about a rostering optimization problem, a [rostering problem][1] consist in assigning shifts to operators in the less costly way. In this case it was an airport operator trying to optimize the worker's shifts to save costs.  For me, the most interesting thing about his thesis was not the modeling itself but the model's final result. 
+While I was studying my master's degree, I attend to a thesis presentation from a student working in an airport operator company. The operator was trying to optimize the worker's shift scheduling. This problem, also known as a [rostering problem][1], is a widely known and challenging problem in Operations Research. But for me, the most interesting part of his presentation was not the modeling itself but the model's final result. 
 
-The company was expecting this model to **reduce the cost** of the shift assignments. However, what the student found, is that the operator **needed to hire two more people**, increasing the cost of the previous assignment. The student explained that the origin of this discrepancy was that the problem shift-constraints where usually "relaxed" on the manual solution, but when added into the mathematical model they needed to be fulfilled. 
+The company was expecting this model to **reduce the cost**. However, what the student found, is that the operator **needed to hire two more people**, increasing the cost of the previous assignment. The student explained that the origin of this discrepancy was that the problem shift-constraints where usually "relaxed" on the manual solution, but when added into the mathematical model they needed to be fulfilled. 
 
 Some of these constraints were "ok to be relaxed" but some of them not (with legal implications). I don't want to say that "it was funny" that they "found out" that they were breaking the law when building a mathematical optimization model, but it was "interesting" to say the least. From what I'm aware, and according to the speaker, the operator corrected this right away. 
 
-From my side, I've learned a couple of lessons from his presentation, First, don't break the law, but second, mathematical optimization models are not very "flexible" when modeling constraints from "real life". Having said that, "a flexible optimization model" could be very handy (Assuming that you are not relaxing any legal constraints). 
+I learned a couple lessons from his presentation; first, don't break the law, and second, mathematical optimization models are not very "flexible" when modeling constraints from "real life". Having said that, "a flexible optimization model" could be very handy (Assuming that you are not relaxing any legal constraints). 
 
-Usually, the first time that you frame an optimization problem, the "business people" will come with a challenge that looks like this: 
+Usually, when you first frame an optimization problem, the "business people" will come with a challenge that looks like this: 
 
 1. We want to build a rocket that can reach Mars.
 1. It should cost less than $100.
@@ -30,23 +30,25 @@ Usually, the first time that you frame an optimization problem, the "business pe
 
 ![my life](expectations.png){: h='300'}
 
-However, reality will hit you in the form of a: `solver finished, model status: unfeasible`. Yes, mathematical models can't solve unreal expectations. It would be handful not to add all the constraints like rules written in stone, but maybe there's a way to find "the best possible solution" that breaks the fewer constraints as possible, and just on the amount that is needed.
+However, reality will hit you in the form of a: `solver finished, model status: unfeasible`. Yes, mathematical models can't solve unreal expectations. It would be handful not to write the constraints like rules written in stone, but use them as "guidelines" for the problem. Finding "the best possible solution" that breaks the fewer constraints as possible, and just on the amount that is needed.
+
+This is the goal of "relaxation-algorithms", how to relax the constraints the minimum as possible whilst finding a feasible solution. Let's talk about these algorithms.
 
 ## The "easy-to-implement" solutions
 
-On the open source world, the alternative that I've seen most frequently is the ["Elastic Constraints"][2] ([tutorial][3]) or ["relaxation via objective function penalization"][12]. 
+On the open source world, the solvers usually have an implementation of the ["Elastic Constraints"][2]([tutorial][3]) or ["relaxation via objective function penalization"][12]. 
 
-The Elastic Constraint method, in a nutshell, consist on defining a region $D$ where the constraint will be penalty free. Where $D$ is defined by a lower and upper bound $ D = [ {d}_{low},{d}_{high} ]$, along with a penalty cost `rhs`, `lhs`.
+The Elastic Constraint method, consist on defining a region $D$ where the constraint can be relaxed, penalty free. Usually $D$ is defined by a lower and upper bound $ D = [{d}_{low},{d}_{high}]$ , along with a penalty cost `rhs`, `lhs` in case we move out of the region.
 
 $$ g(x) = c \to g(x) \in D $$
 
-Sadly, The [documentation][1] its not very clear on how this constraint are relaxed, but based on the [tutorial][3], it seems like this will add a penalization term into the objective function $(1)$, which is manually added into the definition of the elastic constraint  `[l]rhs`.
+In [PuLP][2], one of the most popular free-LP solvers available, there is implementation of this method. However, in [documentation][2] its not very clear on how this constraint are relaxed, but based on the [tutorial][3], it seems like this will add a penalization term into the objective function $(1)$, which is manually added into the definition of the elastic constraint  `[l]rhs`.
 
 $$\min f(x) - rsh*\delta_{g}^{+} - lhr*\delta_{g}^{-} \tag{1}  $$
 
 $$\text{st. }  x \in S$$
 
-It is not clear if the solver relaxes the constraints on the same optimization problem, or if it solves a sub-optimization problem $(2)$  
+It is not clear if the solver relaxes the constraints on the same optimization problem as $(1)$, or if it solves a sub-optimization problem such as $(2)$  
 
 $$ \min {\delta_{high}*lhs + \delta_{low}*rhl}  \tag{2} $$
 
@@ -54,17 +56,17 @@ $$\text{st. }  x \in S $$
 
 $\delta_{i}$ corresponds to the constraint deviation, also known as "slack variable". 
 
-This model minimizes the deviations of the constraints. However, in my experience implementing elastic constraints, I found the results to be inconsistent. My guess is that the first model $(1)$ is the one used.
+In my experience, implementing elastic constraints using PuLP, the results were widely inconsistent. My guess is that the implementation is more similar to $(1)$ than to $(2)$, but for reasons that I will explain later, I don't like either of both. 
 
 A second alternative is the ["Penalization Method"][12]. This method is nothing more than a generalization of $(1)$. The idea is to customize the way in which constraint is penalized on the objective function. Additionally, you can normalize these values when dealing with multiple infeasibilities or transform them into non-linear terms (using approximations).  
 
-Both of these methods are simple and can be implemented easily. However, in my personal experience, they are very limited and often inconsistent.
+Both of these methods are simple and can be implemented easily. However, they are very limited and often inconsistent.
 
 ### Limitations of these methods 
 
-These methods work well for simple infeasibility problems. However, in my practical experience, these relaxation problems come with more nuances: 
+These methods work well for simple infeasibility problems. However, in my experience, these relaxation methods come with some nuances: 
 
-1. These methods typically require manual fixed costs, which are tricky to define. Depending on the values used, it can harm the original optimization problem, this is because we change the objective function, having unexpected consequences. 
+1. These methods typically require manual fixed costs (EX: `rhs`, `lhs`), which are tricky to define. Also, depending on the values used, it can harm the original optimization problem, this is because changing the objective function can have unexpected consequences. 
 1. The relaxation process either relaxes all "relaxable" constraints or not. For feasible problems or those with only "local infeasibilities", the model implementation can become very unreliable.
 1. Depending on the defined penalty costs, it is possible that the model relaxes a constraint that doesn't need to be relaxed (if the gain in the objective function is good enough), and this is very hard to control.
 1. When more than one constraint is relaxed, it's possible that the value of the objective function becomes so disproportionate that the optimal solution makes no sense.
@@ -72,7 +74,7 @@ These methods work well for simple infeasibility problems. However, in my practi
 
 **In summary**, these methods are usually unreliable and complex. That's why ["serious solvers"][5] have implemented more robust solutions like [CPLEX feasopt][4].
 
-###  `feasopt` algorithm
+### The `feasopt` algorithm
 
 before talking about how `feastopt` works, let's talk about what does it brings:
 
@@ -112,7 +114,6 @@ $$x\le0$$
 Is an infeasible set but can still be reduced further, so it is not an IIS. There are several basic algorithms that can help solve this problem, and I have implemented a few of them described in the publication by [Olivier Guieu and John W. Chinneck (1998)][6].
 
 I have implemented two algorithms, `DELETION_FILTER` and `ADDITIVE_ALGORITHM`, in this [module][7]. In a nutshell, both algorithms eliminate or add constraints until they reach the IIS (Irreducible Infeasible Sets). 
-
 
 An example of its use:
 
@@ -212,7 +213,7 @@ There are a few limitations to this algorithm:
 
 ## Final thoughts
 
-I learned a lot building this relaxer. I did a pull request on the [python-mip repo][11] to add this [module][10]. However, I have updated it and failed to do the pull request again. Also, I never added this to the package documentation, so I doubt that anyone has used it besides me. This post is the first attempt to document this algorithm. Let's hope that someone reads it. If you are interested and I haven't pushed the pull request on the repository yet, push me to do it 😂. Thanks!
+I learned a lot building this relaxer. I did a pull request on the [python-mip repo][11] to add this [module][10]. However, I have updated it and failed to do the pull request again. Also, I never added this to the package documentation, so I doubt that anyone has used it besides me. This post is the first attempt to document this algorithm. Let's hope that someone reads it. If you are interested and I haven't pushed the pull request on the repository yet, if you find it useful, motivate me to do the PR 😂. Thanks !!!
 
 
 [1]:<https://en.wikipedia.org/wiki/Nurse_scheduling_problem>

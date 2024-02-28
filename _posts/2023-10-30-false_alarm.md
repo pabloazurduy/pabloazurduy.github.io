@@ -10,21 +10,21 @@ math: true
 mermaid: true
 ---
 
-## A made up story (-not based on real events-)
+## A made up story ~~(not based on real events)~~
 
-Imagine that you work in an office where the fire alarm starts ringing from time to time without any apparent reason. Maybe it's because there's a construction site nearby that triggers the smoke detectors, or maybe the system isn't working properly.
+Imagine that in your office the fire alarm goes off frequently without any apparent reason. Maybe it's because there's a construction site nearby that triggers the smoke detectors ~~or maybe the system isn't working properly~~.
 
-To address the issue of false alarms, the office administration implements a second validation process that sends a message via an internal Slack channel to confirm whether the alarm is real or not. However, this process still has a probability of sending false alarms. After several false alarms and pointless evacuations, you start to wonder: [what's the probability that there's a real fire in the building?](#calculator) 
+To address the issue, the administration implements a second validation system, consisting on sending a message via an internal Slack channel to confirm whether the alarm is real or not. However, this process still confirm several false alarms and after a lot of pointless evacuations, you start to wonder: if the alarm goes off, what's the actual probability that there's a fire on the building ?
 
-Introducing: [Bayesian Networks][1]
+To answer this question, lets talk about [Bayesian Networks][1]
 
 _I don't care, take me to the [calculator](#calculator)_
 
 ## Bayesian Networks
 
-As someone who, like me, enjoys Bayesian probability, you can transform this problem into a set of random variables and certain relationships between them. We will make use of a well-known structure called ["Bayesian networks"][2] that will allow us to first fit certain data to determine the underlying probabilities, and secondly, to use the network to answer questions such as, "If the alarm starts ringing and there's no Slack message, [what is the probability of a fire in the building?](#calculator)"
+I enjoy using [Bayesian Probability][2] in my day to day, it has a very intuitive way to model and solve problems. The bayesian networks are a graphical way to correlate causal variables in ways that everyone can understand. Let's use this example to illustrate the use of bayesian networks. 
 
-To estimate the probability of a real fire in the building, we will define three binary random variables: Fire ($F$), Alarm ($A$), and Slack Message ($M$). We will define their relationships using the following graph (also known as [DAG][3]) 
+We have three events, that can describe as variables: Fire ($F$), Alarm ($A$), and Slack Message ($M$).In the following  graph we can see that a Fire ($F$) can trigger the alarm $A$, and a Slack Message ($M$) can be trigger if there's an alarm ringing and a real Fire $F$. Each arrow can represent a causal effect of one event into another. This graph is also known as [DAG][3]. 
 
 ```mermaid 
 graph 
@@ -33,42 +33,10 @@ A --> M(Slack Message - M)
 F --> M
 ```
 
-Each variable has a binary status $X \in [0,1]$. In the case of $F=1$, it represents fire, while $F=0$ represents no fire. Similarly, $A=1$ represents the event of the alarm being triggered, and $A=0$ otherwise. Finally, $M=1$ represents the status of the administrator confirming the alarm, and $M=0$ otherwise.
+Each variable has a binary status $X \in [0,1]$. In the case of $F=1$, it represents fire. Similarly, $A=1$ represents the event of the alarm being triggered. Finally, $M=1$ represents a message. 
 
-Each variable conditional probability can be added into a table. In this case as an example **I will fill the probabilities with a value just to make the example clearer**.
+The idea of bayesian networks its to find the probabilities of all the events using past events data and the graph described by our own knowledge of the relationships between the variables. 
 
-Fire $F$ probabilities (just using this numbers as an example) 
-
-| $F$        | Probability |
-|------------|------------:|
-| 0          |   0.99      |
-| 1          |   0.01      |
-
-In the upper table, we can see that the probability of fire is 0.01 and the probability of non-fire its 0.99. We can also notice that this table is not conditional on any other variables; fire is an **independent node**. However, we will see that this changes in the case of $A$, where $A$ probability depends on the fire status. 
-
-You can see the Alarm ($A$) conditional probabilities in the following table. (again made up values):
-
-| $F$        | $P(A=1\|F)$ | $P(A=0\|F)$|
-|------------|-----------:|------------:|
-| 0          |   0.2      |   0.8       |
-| 1          |   0.99     |   0.01      |
-
-In the Alarm probability table, we can see that the probability of the alarm sounding given that there is a fire is $P(A=1\|F=1)=0.99$, and the probability of the alarm not detecting a fire is:
-
-$$P(A=0|F=1)=1-P(A=1|F=1)=0.01$$
-
-As you can see, the last column is just the complement of the middle one, so it can theoretically be omitted.
-
-The Slack Message node $M$ has conditional probabilities that depend on both $A$ and $F$ (this are again made up values). For example, we can observe from the table that the probability of a Slack Message being sent when the alarm is not raised is zero $P(M=1\|A=0, F=0)=0$
-
-| F          | A          | $P(M=1\|F,A)$| $P(M=0\|F,A)$  |
-|:----------:|----------:|-------------:|--------------:|
-|    0       |    0       |     0         |   1            |
-|    0       |    1       |     0.8       |   0.2          |
-|    1       |    0       |     0.5       |   0.5          |
-|    1       |    1       |     1         |   0            |
-
-These tables are known as [CPD][4] tables (conditional probability distribution tables). Usually in life, we don't know these tables. Knowing the actual probabilities would make our estimation just a simple multiplication between conditions. but life its hard, so we will need to **infer** them.
 
 Let's assume that our observed dataset $D$ its just a list of events like:
 
@@ -82,7 +50,30 @@ Let's assume that our observed dataset $D$ its just a list of events like:
 | 1 | 0 | 0 |
 | .. | .. | .. |
 
-Each row corresponds to a historical event. Using these values, we would like to infer what the actual [CPD][4] tables look like.
+Each row corresponds to a historical event. Using these values, we would like to infer what the probabilities look like. 
+
+This probabilities are called: Conditional Probabilities Distribution ([CPD][7]). In the case of our example, given that we only have discrete variables, we could see this CDP's on tables. 
+
+For example in the case of Fire probabilities (CPD), what we have is the following table. This values are based on an example dataset:  
+
+| $F$        | Probability |
+|------------|------------:|
+| 0          |   0.99      |
+| 1          |   0.01      |
+
+In this table we can see that, based in our historical data, the probability of a fire event is 1%, while a probability of not having fire, given the registered events, is 99%. 
+
+In the case of the Fire Alarm $A$, the table its a little bit different given that the Alarm will depend on the Fire event, therefore we will see the conditional probabilities given certain value of F:
+
+| $F$        | $P(A=1\|F)$ | $P(A=0\|F)$|
+|------------|-----------:|------------:|
+| 0          |   0.2      |   0.8       |
+| 1          |   0.99     |   0.01      |
+
+In this case we have two scenarios if there's fire or if there's not. we will have probability values on both cases, alarm given that there's fire  $P(A=1\|F=1) = 0.99 $ and the contrary $P(A=1\|F=0) = 0.2$. 
+
+
+
 
 ### Making Inference 
 
@@ -209,3 +200,4 @@ If the alarm starts ringing, evacuate. It's also important to fix any broken ala
 [4]: <https://erdogant.github.io/bnlearn/pages/html/Parameter%20learning.html#examples-parameter-learning>
 [5]: <https://erdogant.github.io/bnlearn/pages/html/index.html>
 [6]: <https://erdogant.github.io/bnlearn/pages/html/Examples.html#create-a-bayesian-network-learn-its-parameters-from-data-and-perform-the-inference>
+[7]: <https://erdogant.github.io/bnlearn/pages/html/Parameter%20learning.html>

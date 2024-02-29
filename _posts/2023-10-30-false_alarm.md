@@ -63,7 +63,7 @@ For example in the case of Fire probabilities (CPD), what we have is the followi
 
 In this table we can see that, based in our historical data, the probability of a fire event is 1%, while a probability of not having fire, given the registered events, is 99%. 
 
-In the case of the Fire Alarm $A$, the table its a little bit different given that the Alarm will depend on the Fire event, therefore we will see the conditional probabilities given certain value of F:
+In the case of the Fire Alarm $A$, the table its a little bit different given that the Alarm depends on the Fire event, therefore the value of $P(A)$ depends on the value of $F$:
 
 | $F$        | $P(A=1\|F)$ | $P(A=0\|F)$|
 |------------|-----------:|------------:|

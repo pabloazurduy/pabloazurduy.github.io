@@ -14,7 +14,7 @@ mermaid: true
 
 Imagine that in your office the fire alarm goes off frequently without any apparent reason. Maybe it's because there's a construction site nearby that triggers the smoke detectors ~~or maybe the system isn't working properly~~.
 
-To address the issue, the administration implements a second validation system, consisting on sending a message via an internal Slack channel to confirm whether the alarm is real or not. However, this process still confirm several false alarms and after a lot of pointless evacuations, you start to wonder: if the alarm goes off, what's the actual probability that there's a fire on the building ?
+To address the issue, the administration implements a second validation system, consisting on sending a message via an internal Slack channel to confirm whether the alarm is real or not. However, this process still confirm several false alarms and after a lot of pointless evacuations, you start to wonder: If the fire alarm goes off, what is the actual probability of a fire in the building?
 
 To answer this question, lets talk about [Bayesian Networks][1]
 

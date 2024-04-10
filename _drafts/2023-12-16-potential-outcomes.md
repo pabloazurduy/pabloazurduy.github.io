@@ -13,7 +13,7 @@ math: true
 
 I decided to re-write a few notes that I have handwritten of the fundamentals of causal inference while we teach a crash course of new DS interns at uber, while I haven't study this topic in a while I wanted to revisit this fundamentals now that I have a few more practical experience in the field. 
 
-While the idea of these notes are to provide the (theorical) fundamentals, I will also want to make them lightweight so are also enjoyable for a student that it's just arriving to this topic. To read this topic in a more structured way I suggest you (dear reader) to take a look into the chapters [`1`][1] and [`4`][2] of the ["Causal Inference The Mixtape"][3], and also to complement the study reading ["The Effect"][4], particularly the chapter [10][5]
+While the idea of these notes are to provide the (theoretical) fundamentals, I will also want to make them lightweight so are also enjoyable for a student that it's just arriving to this topic. To read this topic in a more structured way I suggest you (dear reader) to take a look into the chapters [`1`][1] and [`4`][2] of the ["Causal Inference The Mixtape"][3], and also to complement the study reading ["The Effect"][4], particularly the chapter [10][5]
 
 # Fundamentals of Causal Inference
 
@@ -27,7 +27,7 @@ This paradigm that encloses causality on a frame of two "potential states" or "a
 
 ## Potential Outcomes 
 
-On the potential outcomes literature ([Rubin (1974)][6], [Splawa-Neyman (1923)][7]) they frame this theorical problem in a counterposition of two states "the actual state" and the "counterfactual state", the first being, what actually happened and the second one what would have happened. 
+On the potential outcomes literature ([Rubin (1974)][6], [Splawa-Neyman (1923)][7]) they frame this theoretical problem in a contraposition of two states "the actual state" and the "counterfactual state", the first being, what actually happened and the second one what would have happened. 
 
 
 

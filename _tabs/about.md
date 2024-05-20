@@ -24,7 +24,7 @@ The topics of this blog are; Data Science, [Bayesian Inference][4], [Causal Infe
 
 Feel free to contact me via the links on my profile 🙏. 
 
-__I am human, and nothing human is foreign to me__
+_I am human, and nothing human is foreign to me_
 
 
 [1]:<https://github.com/pabloazurduy/python-mip-infeasibility>

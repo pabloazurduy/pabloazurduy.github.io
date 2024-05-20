@@ -12,7 +12,7 @@ Hi there! I'm Pablo, MS in Operations Research and currently Data Scientist at U
 
 ![Pablo Azurduy Avatar](https://avatars.githubusercontent.com/u/24685386?v=4){: w="240" .right }
 
-I do a bit of everything, but lately I've been more focused on Causal Inference and Experimentation. I studied OR, hence, I try to stay as close as possible to Optimization. However, there's no perfect job, as a consequence, being a "generalist" was my path to survive. I try to keep myself studying every week, and that's one of the reasons why I start writing these notes.
+I do a bit of "everything", but lately I've been more focused on Causal Inference and Experimentation. I studied OR, hence, I try to stay as close as possible to Optimization. However, there's no perfect job, as a consequence, being a "generalist" was my path to survive. I try to keep myself studying every week, and that's one of the reasons why I start writing these notes.
 
 ## About this blog 
 

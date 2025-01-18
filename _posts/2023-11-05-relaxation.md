@@ -24,26 +24,24 @@ Let me break down what I'll cover:
 
 ## Why infeasible problems are so common
 
-While I was studying my master's degree, I attend to a thesis presentation from a student working in an airport operator company. The operator was trying to optimize the worker's shift scheduling. This problem, also known as a [rostering problem][1], is a widely known and challenging problem in Operations Research. But for me, the most interesting part of his presentation was not the modeling itself but the model's final result. 
+While I was studying my master's degree, I attend to a thesis presentation from a student working in an airport operator company. The operator was trying to optimize the worker's shift scheduling. This problem, also known as a [rostering problem][1], is a widely known problem in OR. I still remember the student's presentation, not because of the model, but from the story behind.
 
-The company was expecting this model to **reduce the cost**. However, what the student found, is that the operator **needed to hire two more people**, increasing the cost of the previous assignment. The student explained that the origin of this discrepancy was that the problem shift-constraints where usually "relaxed" on the manual solution, but when added into the mathematical model they needed to be fulfilled. 
+The company was expecting this model to reduce the cost ~~of course, why else would you spend time and money building a model?~~. However, the model solution was actually more expensive than the current manual-solution. The explanation behind is that for a long time the company had been ~~breaking the law~~ "relaxing constraints" by scheduling workers for more hours or days than allowed . The model, of course, ~~was not able to break the law~~, was infeasible.
 
-Some of these constraints were "ok to be relaxed" but some of them not (with legal implications). I don't want to say that "it was funny" that they "found out" that they were breaking the law when building a mathematical optimization model, but it was "interesting" to say the least. From what I'm aware, and according to the speaker, the operator corrected this right away. 
+I learned a few lessons from his presentation; ~~first, don't break the law~~ mathematical optimization models are not very "flexible" when modeling constraints from "real life". Finding ways of adding a way of relaxing constraints is very needed for solving real-world problems.
 
-I learned a couple lessons from his presentation; first, don't break the law, and second, mathematical optimization models are not very "flexible" when modeling constraints from "real life". Having said that, "a flexible optimization model" could be very handy (Assuming that you are not relaxing any legal constraints). 
-
-Usually, when you first frame an optimization problem, the "business people" will come with a challenge that looks like this: 
+More often than not, I face business problems that have the following outline:
 
 1. We want to build a rocket that can reach Mars.
 1. It should cost less than $100.
 1. It has to be built in 5 months.
 1. It must weight 250 grams. 
 
-![my life](expectations.png){: h='300'}
+![my life](expectations.png){: h='200'}
 
-However, reality will hit you in the form of a: `solver finished, model status: unfeasible`. Yes, mathematical models can't solve unreal expectations. It would be handful not to write the constraints like rules written in stone, but use them as "guidelines" for the problem. Finding "the best possible solution" that breaks the fewer constraints as possible, and just on the amount that is needed.
+However, reality will hit me in the form of a: `solver finished, model status: unfeasible`. Yes, mathematical models can't solve unreal expectations. It would be handful not to write the constraints like rules written in stone, but use them as "guidelines" for the problem. Finding "the best possible solution" that breaks the "fewer constraints as possible" is the dream.
 
-This is the goal of "relaxation-algorithms", how to relax the constraints the minimum as possible whilst finding a feasible solution. Let's talk about these algorithms.
+This is the goal of "relaxation-algorithms", how to relax the constraints the minimum as possible whilst finding a feasible solution. Let's talk about how to do this.
 
 ## The "easy-to-implement" solutions
 

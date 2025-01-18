@@ -22,7 +22,7 @@ Let me break down what I'll cover:
 6. [My implementation of a hierarchy-based relaxation algorithm](#the-conflict-relaxer)
 
 
-## Why infeasible problems are so common
+### Why infeasible problems are so common
 
 While I was studying my master's degree, I attend to a thesis presentation from a student working in an airport operator company. The operator was trying to optimize the worker's shift scheduling. This problem, also known as a [rostering problem][1], is a widely known problem in OR. I still remember the student's presentation, not because of the model, but from the story behind.
 

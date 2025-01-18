@@ -83,7 +83,7 @@ These methods work well for simple infeasibility problems. However, in my experi
 
 **In summary**, these methods are usually unreliable and complex. That's why ["serious solvers"][5] have implemented more robust solutions like [CPLEX feasopt][4].
 
-### The `feasopt` algorithm
+## The `feasopt` algorithm
 
 before talking about how `feastopt` works, let's talk about what does it brings:
 
@@ -104,7 +104,7 @@ graph LR
 
 Let's discuss the `ConflictFinder` algorithm in more detail.
 
-### The ConflictFinder
+## The ConflictFinder
 
 The ConflictFinder is an [algorithm that searches][6] for sets of constraints that cannot be reduced further, also known as [Irreducible Infeasible Sets (IIS)][6]. These sets contain a group of constraints that, if any one of them is eliminated, the problem becomes feasible. For example, the set of constraints:
 
@@ -150,7 +150,7 @@ print(iis)
 
 Now, having a way to find an IIS we are one step to make our own `feasopt`
 
-### The Conflict Relaxer
+## The Conflict Relaxer
 
 Inspired by `feasopt` I added into the [python-mip library][8] into the constraint class `mip.Constr` a `priority` attribute. This attribute its just an `Enum` that will tell me if the constraint has one of the following [ConstraintPriorities][9]
 

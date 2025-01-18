@@ -10,8 +10,19 @@ math: true
 mermaid: true
 ---
 
+In this post, I will talk about what infeasible optimization problems are and how to solve them. I will finish the post with my own implementation of FeasOpt, the CPLEX algorithm for constraint relaxation.
 
-## The reality is usually "Infeasible"
+Let me break down what I'll cover:
+
+1. [What are infeasible optimization problems and why they are so common](#why-infeasible-problems-are-so-common)
+2. [Most easy-to-implement solution methods (Elastic Constraints and Penalization Methods)](#the-easy-to-implement-solutions)
+3. [The limitations with these methods](#limitations-of-these-methods)
+4. [The CPLEX approach and the FeasOpt algorithm](#the-feasopt-algorithm)
+5. [Finding Irreducible Infeasible Sets (IIS)](#the-conflictfinder)
+6. [My implementation of a hierarchy-based relaxation algorithm](#the-conflict-relaxer)
+
+
+## Why infeasible problems are so common
 
 While I was studying my master's degree, I attend to a thesis presentation from a student working in an airport operator company. The operator was trying to optimize the worker's shift scheduling. This problem, also known as a [rostering problem][1], is a widely known and challenging problem in Operations Research. But for me, the most interesting part of his presentation was not the modeling itself but the model's final result. 
 
@@ -38,7 +49,7 @@ This is the goal of "relaxation-algorithms", how to relax the constraints the mi
 
 On the open source world, the solvers usually have an implementation of the ["Elastic Constraints"][2]([tutorial][3]) or ["relaxation via objective function penalization"][12]. 
 
-The Elastic Constraint method, consist on defining a region $D$ where the constraint can be relaxed, penalty free. Usually $D$ is defined by a lower and upper bound $ D = [{d}_{low},{d}_{high}]$ , along with a penalty cost `rhs`, `lhs` in case we move out of the region.
+The Elastic Constraint method, consist on defining a region $D$ where the constraint can be relaxed, penalty free. Usually $D$ is defined by a lower and upper bound $D = [d_{\text{low}},d_{\text{high}}]$ , along with a penalty cost `rhs`, `lhs` in case we move out of the region.
 
 $$ g(x) = c \to g(x) \in D $$
 

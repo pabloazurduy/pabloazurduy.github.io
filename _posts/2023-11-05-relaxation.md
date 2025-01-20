@@ -10,13 +10,12 @@ math: true
 mermaid: true
 ---
 
-In this post, I will talk about what infeasible optimization problems are and how to solve them. I will finish the post with my own implementation of FeasOpt, the CPLEX algorithm for constraint relaxation.
+In this post, I will talk about why infeasible optimization problems are so common and how to solve them. Then I will add my own implementation of FeasOpt, the CPLEX algorithm for constraint relaxation, and finally some discussion on the limitations of this algorithm.
 
-Let me break down what I'll cover:
 
-1. [What are infeasible optimization problems and why they are so common](#why-infeasible-problems-are-so-common)
+1. [Why infeasible problems are so common](#why-infeasible-problems-are-so-common)
 2. [Most easy-to-implement solution methods (Elastic Constraints and Penalization Methods)](#the-easy-to-implement-solutions)
-3. [The limitations with these methods](#limitations-of-these-methods)
+3. [The limitations of these methods](#limitations-of-these-methods)
 4. [The CPLEX approach and the FeasOpt algorithm](#the-feasopt-algorithm)
 5. [Finding Irreducible Infeasible Sets (IIS)](#the-conflictfinder)
 6. [My implementation of a hierarchy-based relaxation algorithm](#the-conflict-relaxer)

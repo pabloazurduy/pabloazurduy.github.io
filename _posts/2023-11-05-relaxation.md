@@ -23,13 +23,13 @@ In this post, I will talk about why infeasible optimization problems are so comm
 
 ### Why infeasible problems are so common
 
-While I was studying my master's degree, I attend to a thesis presentation from a student working in an airport operator company. The operator was trying to optimize the worker's shift scheduling. This problem, also known as a [rostering problem][1], is a widely known problem in OR. I still remember the student's presentation, not because of the model, but from the story behind.
+While I was studying my master's degree, I attend to a thesis presentation from a student working in an airport operator company. The operator was trying to optimize the worker's shift scheduling -also known as a [rostering problem][1]-. I still remember the student's presentation, not because of the model solution, but from the story behind.
 
-The company was expecting this model to reduce the cost ~~of course, why else would you spend time and money building a model?~~. However, the model solution was actually more expensive than the current manual-solution. The explanation behind is that for a long time the company had been ~~breaking the law~~ "relaxing constraints" by scheduling workers for more hours or days than allowed . The model, of course, ~~was not able to break the law~~, was infeasible.
+The company was expecting this model to reduce the cost ~~of course, why else would you spend time and money building a model?~~. However, the model solution was actually worse than the manual-solution. The explanation behind is that for a long time the company had been ~~breaking the law~~ "relaxing constraints" by scheduling workers for more hours or days than allowed. The model, of course, ~~was not able to break the law~~, was infeasible.
 
-I learned a few lessons from his presentation; ~~first, don't break the law~~ mathematical optimization models are not very "flexible" when modeling constraints from "real life". Finding ways of adding a way of relaxing constraints is very needed for solving real-world problems.
+From the presentation I learn that ~~don't break the law~~ mathematical optimization models are not very "flexible" when modeling constraints from "real life". Finding ways of adding a way of relaxing constraints is very needed for solving real-world problems.
 
-More often than not, I face business problems that have the following outline:
+More often than not, you will face problems like this:
 
 1. We want to build a rocket that can reach Mars.
 1. It should cost less than $100.
@@ -38,7 +38,7 @@ More often than not, I face business problems that have the following outline:
 
 ![my life](expectations.png){: h='200'}
 
-However, reality will hit me in the form of a: `solver finished, model status: unfeasible`. Yes, mathematical models can't solve unreal expectations. It would be handful not to write the constraints like rules written in stone, but use them as "guidelines" for the problem. Finding "the best possible solution" that breaks the "fewer constraints as possible" is the dream.
+However, reality will hit you in the form of a: `solver finished, model status: unfeasible`. Yes, mathematical models can't solve unreal expectations. It would be handful not to write the constraints like rules written in stone, but use them as "guidelines" for the problem. Finding "the best possible solution" that breaks the "fewer constraints as possible" is the dream.
 
 This is the goal of "relaxation-algorithms", how to relax the constraints the minimum as possible whilst finding a feasible solution. Let's talk about how to do this.
 

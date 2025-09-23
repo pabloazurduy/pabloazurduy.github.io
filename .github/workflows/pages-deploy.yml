@@ -71,6 +71,6 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v2
         with:
-        	branch: main  # or your selected branch
-    		folder: public # or your build output directory
+            branch: main  
+            folder: public
 

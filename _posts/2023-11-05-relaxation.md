@@ -24,26 +24,27 @@ Outline:
 
 More often than not, you will face optimization problems that look like this:
 
-1. We want to build a rocket that can reach Mars.
-1. It should cost less than $100.
+1. We want to build a rocket that reach to Mars.
+1. It should cost less than $1M.
 1. It has to be built in less than 5 months.
-1. It must weight 250 grams. 
+1. It must weigh 250grams. 
 
 ![my life](expectations.png){: h='200'}
 
-However, reality will hit you in the form of a: `solver finished, model status: unfeasible`. Yes, mathematical models can't solve unreal expectations. It would be handful not to write the constraints like rules written in stone, but use them as "guidelines" for the problem. Finding "the best possible solution" that breaks the "fewer constraints as possible" is the dream.
+However, reality often arrives in the form of: `solver finished, model status: infeasible`. Unsurprisingly, mathematical models cannot satisfy unrealistic expectations. In practice, it would be helpful to treat some constraints not as "fixed universal laws", but as "guidelines" that can be relaxed when necessary. 
 
-This is the goal of "relaxation-algorithms", how to relax the constraints the minimum as possible whilst finding a feasible solution. Let's talk about how to do this.
+The goal of relaxation algorithms is to find the best possible solution while violating as few constraints as possible. Let's discuss how to they work.
+
 
 ## The "easy-to-implement" solutions
 
-On the open source world, the solvers usually have an implementation of the ["Elastic Constraints"][2]([tutorial][3]) or ["relaxation via objective function penalization"][12]. 
+In most open-source solvers, you will find some flavor of ["Elastic Constraints"][2]([tutorial][3]) or ["relaxation via objective function penalization"][12]. 
 
-The Elastic Constraint method, consist on defining a region $D$ where the constraint can be relaxed, penalty free. Usually $D$ is defined by a lower and upper bound $D = [d_{\text{low}},d_{\text{high}}]$ , along with a penalty cost `rhs`, `lhs` in case we move out of the region.
+The Elastic Constraint methods, consist on defining a region $D$ where the constraint can be relaxed, penalty free. Usually $D$ is defined by a lower and upper bound $D = [d_{\text{low}},d_{\text{high}}]$ , along with a penalty cost `rhs`, `lhs` in case we move out of the region.
 
 $$ g(x) = c \to g(x) \in D $$
 
-In [PuLP][2], one of the most popular free-LP solvers available, there is implementation of this method. However, in [documentation][2] its not very clear on how this constraint are relaxed, but based on the [tutorial][3], it seems like this will add a penalization term into the objective function $(1)$, which is manually added into the definition of the elastic constraint  `[l]rhs`.
+In [PuLP][2], one of the most popular free-LP solvers available, this method is implemented. However, in [documentation][2] its not very clear on how this constraint are relaxed, but based on the [tutorial][3], it seems like this will add a penalization term into the objective function $(1)$, which is manually added into the definition of the elastic constraint  `[l]rhs`.
 
 $$\min f(x) - rsh*\delta_{g}^{+} - lhr*\delta_{g}^{-} \tag{1}  $$
 

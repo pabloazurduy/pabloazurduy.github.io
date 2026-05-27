@@ -10,10 +10,9 @@ math: true
 mermaid: true
 ---
 
-In this post, I will talk about why infeasible optimization problems are so common and how to solve them. Then I will add my own implementation of FeasOpt, the CPLEX algorithm for constraint relaxation, and finally some discussion on the limitations of this algorithm.
+Outline: 
 
-
-1. [Why infeasible problems are so common](#why-infeasible-problems-are-so-common)
+1. [Infeasible problems are common](#infeasible-problems-are-common)
 2. [Most easy-to-implement solution methods (Elastic Constraints and Penalization Methods)](#the-easy-to-implement-solutions)
 3. [The limitations of these methods](#limitations-of-these-methods)
 4. [The CPLEX approach and the FeasOpt algorithm](#the-feasopt-algorithm)
@@ -21,19 +20,13 @@ In this post, I will talk about why infeasible optimization problems are so comm
 6. [My implementation of a hierarchy-based relaxation algorithm](#the-conflict-relaxer)
 
 
-### Why infeasible problems are so common
+### Infeasible problems are common
 
-While I was studying my master's degree, I attend to a thesis presentation from a student working in an airport operator company. The operator was trying to optimize the worker's shift scheduling -also known as a [rostering problem][1]-. I still remember the student's presentation, not because of the model solution, but from the story behind.
-
-The company was expecting this model to reduce the cost ~~of course, why else would you spend time and money building a model?~~. However, the model solution was actually worse than the manual-solution. The explanation behind is that for a long time the company had been ~~breaking the law~~ "relaxing constraints" by scheduling workers for more hours or days than allowed. The model, of course, ~~was not able to break the law~~, was infeasible.
-
-From the presentation I learn that ~~don't break the law~~ mathematical optimization models are not very "flexible" when modeling constraints from "real life". Finding ways of adding a way of relaxing constraints is very needed for solving real-world problems.
-
-More often than not, you will face problems like this:
+More often than not, you will face optimization problems that look like this:
 
 1. We want to build a rocket that can reach Mars.
 1. It should cost less than $100.
-1. It has to be built in 5 months.
+1. It has to be built in less than 5 months.
 1. It must weight 250 grams. 
 
 ![my life](expectations.png){: h='200'}
